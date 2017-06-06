@@ -1,7 +1,19 @@
 # Stripe API Notes and Planning
 ## Things we need to do, look into, questions, etc...
+### Topics in this doc:
+- integrate checkout
+- create charges
+- saving card details
+- storing metadata 
+- capturing/authorizing
+- next steps
+- getting paid
+- managing account
+- checklist for going "live"
+- questions
+- reporting
 
-### integrate checkout
+INTEGRATE CHECKOUT
     [CHECKOUT TUTORIAL](https://stripe.com/docs/checkout/tutorial)
     - enable HTTPS on checkout page
     [ENABLING HTTPS](https://stripe.com/docs/checkout#does-checkout-require-https)
@@ -10,7 +22,7 @@
     - the **SERVER** uses the posted token to charge the card
         - [CHARGES DOCUMENTATION](https://stripe.com/docs/charges)
 
-### create charges 
+CREATE CHARGES
     [CHARGES DOCUMENTATION](https://stripe.com/docs/charges)
     - happens after you have securely _collected_ and _tokenized_ customers credit card using **CHECKOUT**
     - charge attempts are made from your **SERVER **
@@ -21,7 +33,7 @@
     - from there, do a simple **API call** to charge the card (check [here](https://stripe.com/docs/charges) to see python code)
     - you automatically receive money in TWO DAYS(**?**)
 
-####  SAVING CREDIT CARD DETAILS FOR LATER 
+SAVING CREDIT CARD DETAILS FOR LATER 
         - STRIPE TOKENS CAN ONLY BE USED **ONCE**
         - stripe provides a `CUSTOMER OBJECT TYPE` that will let us save this info for later use 
         - ALLOW CUSTOMERS TO UPDATE CARD INFO
@@ -29,11 +41,11 @@
             - to CHANGE CARD provide a token as a value for source and update the `CUSTOMER OBJECT`
             https://stripe.com/docs/api#update_customer
             - you can also [DELETE CARD](https://stripe.com/docs/api#delete_card)
- #####  STORING METADATA 
+STORING METADATA 
         - any metadata we choose to include will be viewable in the _Dashboard_ 
         - _example:_ Store's order ID can be attached to the charge used to pay for the order 
 
- #####  CAPTURING/AUTHORIZING 
+CAPTURING/AUTHORIZING 
         - don't completely understand but:
         - to authorize a payment without "capturing" it, make a charge request that also includes the `CAPTURE` parameter with a value of **FALSE**
             - tells Stripe to only authorize the amount on the customer's card
@@ -43,7 +55,7 @@
     - DYNAMIC STATEMENT DESCRIPTOR 
         - not _that_ important for right now but I'll get into that later 
 
-###SOME NEXT STEPS:
+SOME NEXT STEPS:
     - [getting paid](https://stripe.com/docs/payouts)
     - [managing stripe account](https://stripe.com/docs/dashboard)
     - declines and failed payment
@@ -60,7 +72,7 @@ GETTING PAID
     - look into payout failures 
 
 MANAGING STRIPE ACCOUNT
-https://stripe.com/docs/dashboard
+[STRIPE DOCS DASHBOARD](https://stripe.com/docs/dashboard)
     - managing multiple accounts
         - might be good for multiple requests and stuff, give LSES people access to main account and can make requests via multiple accounts 
     - can make additional Stripe accounts at any time, each of which operates independently from one another
@@ -68,7 +80,7 @@ https://stripe.com/docs/dashboard
 
 
 
-### GOING LIVE CHECKLIST!!
+GOING LIVE CHECKLIST!!
 - steps to take
     - one related to the Stripe account
     [STRIPE ACCT CHECKLIST](https://stripe.com/docs/checklist#account)
@@ -76,19 +88,13 @@ https://stripe.com/docs/dashboard
     [STRIPE INTEGRATION CHECKLIST](https://stripe.com/docs/checklist#integration)
 - literally just look through [here](https://stripe.com/docs/checklist)
 
-### QUESTIONS:
+QUESTIONS:
 - what is [webhooks](https://dashboard.stripe.com/account/webhooks)
     - do we need it? 
 
-### REPORTING:
+REPORTING:
 [REPORTING DOCUMENTATION](https://stripe.com/docs/reporting)
 
 
-### Applying filters
+Applying filters
 > "The balance history and account activity can be filtered to display results within a specified criteria. Use the Filter option, located at the top-left of the results, to view and apply the available filter options. Account activity with filtered results can also be exported to a CSV file, reducing the amount of data you need to work with.""
-
-
-
-
-
-
