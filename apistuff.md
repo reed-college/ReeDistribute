@@ -45,7 +45,7 @@
     - any metadata we choose to include will be viewable in the _Dashboard_ 
     - _example:_ Store's order ID can be attached to the charge used to pay for the order 
 
--CAPTURING/AUTHORIZING 
+- CAPTURING/AUTHORIZING 
     - don't completely understand but:
     - to authorize a payment without "capturing" it, make a charge request that also includes the `CAPTURE` parameter with a        value of **FALSE**
         - tells Stripe to only authorize the amount on the customer's card
