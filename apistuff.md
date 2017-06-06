@@ -13,11 +13,11 @@
 - questions
 - reporting
 
--INTEGRATE CHECKOUT
+- **INTEGRATE CHECKOUT**
     - [CHECKOUT TUTORIAL](https://stripe.com/docs/checkout/tutorial)
     - enable HTTPS on checkout page
-    [ENABLING HTTPS](https://stripe.com/docs/checkout#does-checkout-require-https)
-    - stripe returns token to Checkout or error message. Takes returned token and stores it in pages **PRIMARY FORM** (the one surrounding the script tag in the checkout-tutorial link)
+        - [ENABLING HTTPS](https://stripe.com/docs/checkout#does-checkout-require-https)
+    - stripe returns token to Checkout or error message. Takes returned token and stores it in pages **PRIMARY FORM** (the         one surrounding the script tag in the checkout-tutorial link)
     - checAkout then submits the form to the server 
     - the **SERVER** uses the posted token to charge the card
         - [CHARGES DOCUMENTATION](https://stripe.com/docs/charges)
