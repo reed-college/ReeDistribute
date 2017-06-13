@@ -18,8 +18,8 @@
 sudo pip install flask' 
 - in terminal, do: `export STRIPE_LOG=debug`
 - when running it, be in *activated* venv
-- copy and paste this code to terminal:
-`PUBLISHABLE_KEY=pk_test_6pRNASCoBOKtIshFeQd4XMUh SECRET_KEY=sk_test_BQokikJOvBiI2HlWgH4olfQ2 python app.py`
+- copy and paste *this code* to terminal:
+>`PUBLISHABLE_KEY=pk_test_6pRNASCoBOKtIshFeQd4XMUh SECRET_KEY=sk_test_BQokikJOvBiI2HlWgH4olfQ2 python app.py`
 - if that doesn't work, try:
 `pip install --upgrade stripe`
 - if you are still having trouble, double check everything through [stripe python github docs](https://github.com/stripe/stripe-python)
