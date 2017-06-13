@@ -15,7 +15,7 @@ Base = declarative_base() #Make it an OOP
 
 class IdPrimaryKeyMixin(object):
     #An ID column we wish to add to all rows,
-    #  it will be unique to the table and given incrementaly
+    # The database creates these and we use it to get elements
     id = Column(Integer, primary_key=True, nullable = False)
 
 
