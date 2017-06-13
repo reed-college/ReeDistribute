@@ -1,11 +1,9 @@
-from testit import *
+from schema import *
 import db
 
 
-
-
-
 def create_student(username, name, password, email):
+    # Create a Student and Account instance in the rd database.
     s = db.get_session()
 
     Acc =  Account(username = username, name = name, password=password, email = email)
@@ -19,6 +17,7 @@ def create_student(username, name, password, email):
 
 
 def create_donor(username, password, email):
+    # Create a Donor and Account instance in the rd database
     s = db.get_session()
 
     Acc =  Account(username = username, password=password, email = email)
@@ -32,16 +31,44 @@ def create_donor(username, password, email):
 
 
 def open_request(student_id, amount, reason):
+    # Create a request instance in the rd database.
     s = db.get_session()
 
     req = Request(requested_by=student_id, amount_needed=amount, description=reason)
     s.add(req)
     s.commit()
     s.close()   
+
+def get_id(usernameAttempt):
+    # Return the database Account id for an account from the username
+    s = db.get_session()
+    A = s.query(Account).filter(Account.username==usernameAttempt).first()
+    s.close()
+    return A.id
+
+
+def get_student_id(usernameAttempt):
+    # Return the database Student id for an account from the username
+    s = db.get_session()
+    A = s.query(Account).filter(Account.username==usernameAttempt).first()
+    acc = A.id
+    S = s.query(Student).filter(Student.related_account==acc).first()
+    s.close()
+    return S.id
+
+
+def get_donor_id(usernameAttempt):
+    # Return the database Donor id for an account from the username
+    s = db.get_session()
+    A = s.query(Account).filter(Account.username==usernameAttempt).first()
+    acc = A.id
+    D = s.query(Donor).filter(Donor.related_account==acc).first()
+    s.close()
+    return D.id
  
 
 def donate(request_id, donor_id, amount):
-
+    # Create and log the effects of a Donation in the database
     s = db.get_session()
     D = s.query(Donor).get(donor_id)
     R = s.query(Request).get(request_id)
@@ -60,6 +87,7 @@ def donate(request_id, donor_id, amount):
     s.close()
 
 def authenticate(usernameAttempt, passwordAttempt):
+    # Check to see if a user is in the database
     s = db.get_session()
     A = s.query(Account).filter(Account.username==usernameAttempt).first()
     if A is None: ret = False
@@ -80,29 +108,18 @@ def test_donation():
 
 def test_tables():
     
-    s = db.get_session()
+    # s = db.get_session()
 
     # Check Creation
-    A = Account(username = 'JOE',password='ultimatej03',email = 'Joeyjoe@joesph.com',account_token = '555XTZ')
-    S = Student()
-    D = Donor()
+    S = create_student('rubiesandemralds','jolene', 'mine', 'EMAIL' )
+    D = create_donor('bananabread', 'MONEY', 'MAIL')
     R = Request(requested_by = 4, amount_needed = 60.00, description = "I NEED A TOAD. TRUST ME.")
-    DM = Donation(to_request= 3, from_donor= 4,amount_given=55.9,charge_token='kEYKey', filled=False)
+    DM = Donation(to_request= 3, from_donor= 4,amount_given=55.9,charge_token='kEYKey')
 
-    s.add(A)
-    s.add(S)
-    s.add(D)
-    s.add(R)
-    s.add(DM) 
-    s.commit()
+    print(get_id('rubiesandemralds'), get_id('bananabread'))
 
-    print(A, A.__table__, A.id)
-    print(S, S.__table__)
-    print(D, D.__table__)
-    print(R, R.__table__)
-    print(DM, DM.__table__)
-
-    s.close()
+    # s.close()
+test_tables()
 
 def test_authentication():
     A = Account(username = 'LonelyLady',name = 'Eleanor Rigby', password='ringoSTA**',email = 'doIbelong@here.where',account_token = 'MCKENZIE')
