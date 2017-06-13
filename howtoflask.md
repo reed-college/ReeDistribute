@@ -8,12 +8,12 @@
     > `index.html`
     > `layout.html`
     > `charge.html`
-- `pip freeze` (make sure you have python3.6, flask, stripe, virtualenv, virtualenvwrapper)
 - `cd /tmp && mkdir venv-demo && cd venv-demo
                 virtualenv .`
 - `source bin/activate
                 which python` 
 - once in virtualenv, do:
+- `pip freeze` (make sure you have python3.6, flask, stripe, virtualenv, virtualenvwrapper)
 - 'sudo pip install --upgrade stripe
 sudo pip install flask' 
 - in terminal, do: `export STRIPE_LOG=debug`
