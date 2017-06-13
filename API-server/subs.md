@@ -197,7 +197,7 @@ stripe.Subscription.create(
 	* returns the subscription object
 	* **example response**
 
-	~~~~
+~~~~
 <StripeObject subscription id=sub_AHqpku1ywVSpkL at 0x00000a> JSON: {
   "id": "sub_AHqpku1ywVSpkL",
   "object": "subscription",
@@ -264,13 +264,4 @@ stripe.Subscription.create(
   "trial_end": null,
   "trial_start": null
 }
-	~~~~
-
-
-
-
-
-
-
-
-
+~~~~
