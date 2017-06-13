@@ -2,6 +2,12 @@
 - [virtual env instructions](https://github.com/reed-college/2016_sds_lesson_notes/blob/master/lesson_03_beginning_development.markdown)
 - [stripe API flask guide](https://stripe.com/docs/checkout/flask)
 - *make and activate virtualenv*
+- in venv you need:
+	- `app.py`
+	- TEMPLATES FOLDER WITH:
+    > `index.html`
+    > `layout.html`
+    > `charge.html`
 - `pip freeze` (make sure you have python3.6, flask, stripe, virtualenv, virtualenvwrapper)
 - `cd /tmp && mkdir venv-demo && cd venv-demo
                 virtualenv .`
