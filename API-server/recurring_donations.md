@@ -265,3 +265,20 @@ stripe.Subscription.create(
   "trial_start": null
 }
 ~~~~
+
+### Cancel a subscription ###
+- cancel a customers sub if you set `at_period_end` parameter to true, the sub will remain active until end of the period at which point it will be canceled and not renewed 
+- by default, the sub is terminated immediately 
+- **note** any pending invoice items that we have created will still be charged for at end of period unless manually deleted 
+- by defautl all unpaid invoices for customer will be closed upon sub cancellation 
+
+
+### Other important things for subs that will be addressed later ###
+- for more info click [_here_](https://stripe.com/docs/api#subscription_object) and scroll wayyyy down 
+- The account object 
+- Create an account
+- Retrieve account details 
+- Update an account 
+- Delete an account 
+- Reject an account 
+
