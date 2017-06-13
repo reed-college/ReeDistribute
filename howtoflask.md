@@ -1,4 +1,4 @@
-#FLASK API :) 
+# FLASK API :) 
 - [virtual env instructions](https://github.com/reed-college/2016_sds_lesson_notes/blob/master/lesson_03_beginning_development.markdown)
 - [stripe API flask guide](https://stripe.com/docs/checkout/flask)
 - *make and activate virtualenv*
