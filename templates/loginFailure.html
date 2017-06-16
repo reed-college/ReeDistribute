@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends "basic.html" %}
+{% block content %}
 <head>
     <title>home</title>
 </head>
 <body>
     <h1>Ooops....</h1>
     <h3>that was not a real username password combination </h3>
-    <a href="/login">Try again?</a> 
+    <a href="/login"> Retry Login?</a>
+    <a href="/log-donation">Retry Donation?</a>     
     <a href="/">Home</a>
 
     
 </body>
-</html>
+{% endblock %}

@@ -1,4 +1,7 @@
-<!doctype html>
+<head>
+<title>create account</title>
+{% extends "basic.html" %}
+{% block content %}
 <form action="/record_account" method="post">
     Username: <input type="text" name="username" required><br>
     Chosen name: <input type="text" name="name" required><br>
@@ -7,3 +10,5 @@
     reenter password: <input type="text" name="pw2" required><br>    
     <input type="submit" value="Save!">
 </form>
+{% endblock %}
+</head>
