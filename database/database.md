@@ -9,7 +9,7 @@
 5. Set the enviornent variable FLASK_APP to app.py
 6. Run!
 	* to be able to run you must remember to include the lines to start the session, "s = db.get\_session()" and the line to create the database and schema, "schema.start\_db()".
-    * also remember to import db, controls and schema! After that you can call any function as you would a normal python function (no session work)
+	* also remember to import db, controls and schema! After that you can call any function as you would a normal python function (no session work)
 
 ### In Powershell:
 1. python -m venv ReeDistribute
@@ -158,7 +158,7 @@ Just make sure you actually have the object for the row or you may not be changi
 #### requests: the Request table
 >This tables stores all of the request information to enable us to display requests so money can be given.
 
-###### Columns:
+##### Columns:
 
   * requested\_by: Integer which holds the ID of the student (_not the account_)which created the request
   * amount_needed: a Float, of how much money is needed, displayed on the request
