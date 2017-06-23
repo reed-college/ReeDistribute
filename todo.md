@@ -11,3 +11,5 @@
         - [ajax info](https://stackoverflow.com/questions/21806814/how-to-send-information-from-client-to-server-flask-python)
         - [flask+jquery example](https://github.com/pallets/flask/blob/master/examples/jqueryexample/templates/index.html)
         - [flask+ajax tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-ajax)
+
+[updating feed on flask](http://flask.pocoo.org/snippets/10/)
