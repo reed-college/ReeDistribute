@@ -4,6 +4,7 @@
 - __Emily:__ 
     - get more comfortable with flask
     - start learning jquery and AJAX
+        - [form validation](https://jqueryvalidation.org/documentation/)
     - perfect website HTML/CSS _(/templates)_
 - __Flora:__
     - learn jquery and AJAX
