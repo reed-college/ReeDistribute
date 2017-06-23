@@ -1,0 +1,41 @@
+{% extends "basic.html" %}
+{% block content %}
+<head>
+  <style type="text/css" media="screen">
+  .amount {
+    border: 1px inset #ccc;
+}
+.amount input {
+    border: 0;
+}
+</style>
+</head>
+<!-- Donate to the group as a whole or specify a cause:
+<button class="accordion">Section 1</button>
+<div class="panel">
+  <p><span class="request1"></span></p>
+  <link href="/requests/request1"
+</div>
+
+<button class="accordion">Section 2</button>
+<div class="panel">
+  <p><span class="request2"></span></p>
+</div>
+
+<button class="accordion">Section 3</button>
+<div class="panel">
+  <p><span class="request3"></span></p>
+</div>
+ -->
+
+<form action="/charge" method="POST">
+<span class="amount">$<input type="value" name="amount"></span>
+<script
+  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+  data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc"
+  data-name="REEDistribute"
+  data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
+  data-locale="auto">
+</script>
+</form>
+{% endblock %}
