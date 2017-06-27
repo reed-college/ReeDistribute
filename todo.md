@@ -1,16 +1,35 @@
-# To do this week 
-## _Flora and Emily_
-### Servers
-- __Emily:__ 
-    - get more comfortable with flask
-    - start learning jquery and AJAX
-        - [form validation](https://jqueryvalidation.org/documentation/)
-    - perfect website HTML/CSS _(/templates)_
-- __Flora:__
-    - learn jquery and AJAX
-    - get stripe token passed onto server (possibly using jq/AJAX)
-        - [ajax info](https://stackoverflow.com/questions/21806814/how-to-send-information-from-client-to-server-flask-python)
-        - [flask+jquery example](https://github.com/pallets/flask/blob/master/examples/jqueryexample/templates/index.html)
-        - [flask+ajax tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-ajax)
+## Emily:
+logins
+- form validation 
 
-[updating feed on flask](http://flask.pocoo.org/snippets/10/)
+## Flora:
+requests
+- api 
+
+### to do for both of us:
+- read through **_all_** of:
+    * Hannah's database scripts and her markdown file
+    * [the flask guide on databases](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database)
+    * [the flask guide on templates](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates)
+    * the other database scripts
+
+### for Emily:
+- read through **_all_** of:
+    * login info on [flask guide: logins](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins)
+        1. we will _not_ be using openID
+    * login info on [oauth guide](https://blog.miguelgrinberg.com/post/oauth-authentication-with-flask)
+    * log in scripts from /templates on our github
+    * other log in scripts
+- edit existing log in things (not _just_ login.html, make sure to look through all other templates to make sure it's all updated to this login info)
+    * make sure to make login variables connect with our existing database and not the one that is described on the flask tutorial
+
+### for Flora:
+- read through **_all_** of:
+    * pagination info on [flask guide: pagination](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ix-pagination)
+    * searching etc.. on [flask guide: text search](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-x-full-text-search)
+    * existing database/request code
+    * other database/request code
+- edit existing database/request stuff 
+- check api things 
+
+#### _log all edits in separate text doc so we remember what we did so we can keep organized_ 
