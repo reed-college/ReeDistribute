@@ -1,4 +1,4 @@
-from foreignSchema import *
+from Schema import *
 import db
 
 
