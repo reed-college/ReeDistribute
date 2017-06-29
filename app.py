@@ -90,43 +90,25 @@ def check_credentials():
     else: return render_template("loginFailure.html")
 
 @app.route("/pay", methods=["POST"])
+def index():
+    return render_template("index.html",key=stripe_keys["publishable_key"])
+
+@app.route("/charge", methods=["POST"])
 def charge():
-    howMuch=request.form["amt"] #multiply by 100 or stripe thinks we are talking cents
-    usernameAttempt=request.form["uname"]
-    passwordAttempt=request.form["psw"]
-    result = authenticate(usernameAttempt, passwordAttempt)
-    howMuch += '.00'
-    if result: 
-        # Create a Customer:
-        customer = stripe.Customer.create(
-            email="paying.user@example.com",
-            # source=request.form["stripeToken"]
-            )
+    howMuch=request.form["amount"]
+    customer = stripe.Customer.create(
+        source=request.form["stripeToken"],
+        email="paying.user@example.com"
+    )
 
-        # Charge the user's card:
-        charge = stripe.Charge.create(
-            # customer=customer.id,
-            amount=howMuch,
-            currency="usd",
-            description="ReeDistribute Charge"
-        )
-        # update_account_token(usernameAttempt, customer)
-        
-        # eventually replace with donate and a stripe confirmation
-        # with open("database3.txt","w+") as f:
-        #     f.write("Customer ID: " + str(customer.id) + "\n" + "Amount Charged: " + str(charge.amount)
-        #     +"\n" + "email: " + str(customer.email))
-        #     print(f)
-        #     #this prints any information we may want to store onto a .txt file
-        #     #right now, customer-id,amount,email
-        return render_template("LSESdonation.html", amount=howMuch )
-        
-    else: return render_template("loginFailure.html")
+    charge = stripe.Charge.create(
+        customer=customer.id,
+        amount=howMuch,
+        currency="usd",
+        description="Donation"
+    )
 
-
-@app.route("/charge")
-def payment():
-    return render_template("charge.html")  
+    return render_template('charge.html', amount=howMuch)
 
 @app.route("/open_request")
 def make_request():
@@ -145,6 +127,15 @@ def check_request():
         return render_template("loginsuccess.html")
     else: return render_template("loginFailure.html") 
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('500.html'), 500
 
     
 
