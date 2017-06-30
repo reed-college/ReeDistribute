@@ -1,24 +1,118 @@
+
+
 <head>
-<title>ask</title>
 {% extends "basic.html" %}
 {% block content %}
 <head>
-    <title>home</title>
+    <title>Create Account</title>
+<style>
+form {
+    border: 1px solid #f1f1f1;
+}
+input[type=name], input[type=number], input[type=user], input[type=password] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    height: 20%;
+    padding: 12px 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+/*    box-sizing: border-box;*/
+}    
+
+button {
+    background-color: #9b0700;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+button:hover {
+    opacity: 0.8;
+}
+
+label { 
+    display: block;
+    text-align: left;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #9b0700;
+}
+
+.container {
+    padding: 16px;
+    word-spacing: 20%;
+    display: inline-block;
+}
+a.container {
+    padding:10px;
+}
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+h2 {
+    text-align: center;
+    font-family: "Helvetica Neue";
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+</style>
 </head>
 <body>
-    <h1> Please describe your request </h1>
-    <p>
-    <form action="/submit-request" method="POST">
+<p>
+<body>
 
-    Amount: <input type="number" name="amt" required><br>
-    Description:  <input type="text" name="dscrp" required><br>
-    Username: <input type="text" name="uname" required><br>
-    Password: <input type="text" name="psw" required><br>
+<h2>Submit a request</h2>
 
-       
-    <button type="submit">Submit</button></a>
+<form action="/basic" method="post">
+<p>
+  <div class="container" type="req" style="background-color:#f1f1f1">
+    <label><b>Name</b></label>
+    <input type="name" placeholder="Name (optional)" name="nme">
 
-    </p>
+    <label><b>Amount</b></label>
+    <input type="number" placeholder="Enter Amount $" name="amt" required><br>
+
+    <label><b>Username:</b></label>
+    <input type="user" placeholder="Username" name="uname" required>
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="pwd" required></br>
+        
+  </div>
+  <div class="container" >
+    <label><b>Description:</b></label>
+    <textarea></textarea>
+
+    <button type="submit">Login</button>
+  <div class="container" style="display:inline">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Don't have an account? <a href="/create_account">Create one!</a></span>
+
+  </div>
+  </p>
 </body>
 {% endblock %}
 </head>
