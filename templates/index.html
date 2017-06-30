@@ -1,0 +1,30 @@
+{% extends "basic.html" %}
+{% block content %}
+<head>
+  <style type="text/css" media="screen">
+  form {
+  	float:center;
+  	padding-left:40%;
+  	padding-right:40%;
+  }
+  .amount {
+    border: 3px solid #ccc;
+}
+.amount input {
+    border: 5px;
+}
+</style>
+</head>
+<span style="float:center">How much would you like to donate?</span>
+<form action="/charge" method="POST">
+<span class="amount" style="display:block;">$<input type="value" name="amount" required></span>
+<br>
+<script style="padding:5%"
+  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+  data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc"
+  data-name="REEDistribute"
+  data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
+  data-locale="auto">
+</script>
+</form>
+{% endblock %}
