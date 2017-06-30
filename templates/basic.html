@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>home</title>
+    <title>ReeDistribute</title>
     <style type="text/css" media="screen">
         
-      
-/* Add a black background color to the top navigation */
+        /* sizing */
+
+        html {
+          height: 100%;
+          box-sizing: border-box;
+        }
+
+        *,
+        *:before,
+        *:after {
+          box-sizing: inherit;
+        }
+
+        body {
+            position: relative;
+            margin: 0;
+            padding-bottom: 6rem;
+            min-height: 100%;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+        } 
+        footer {
+            background-color: #ffda56;
+            margin: 1;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1.5rem;
+            background-color: #efefef;
+            text-align: center;
+            color: #9b0700;
+        }  
+
+        /* Add a black background color to the top navigation */    
+
         .topnav {
             background-color: #9b0700;
             overflow: hidden;
@@ -14,12 +47,15 @@
         /* Style the links inside the navigation bar */
         .topnav a {
             float: left;
-            display: block;
-            color: #ffda56;
+            display: inline;
+            color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
             font-size: 17px;
+        }
+        a:link, a:visited {
+            text-decoration: none;
         }
 
         /* Change the color of links on hover */
@@ -36,27 +72,23 @@
         
         h1,h2,h3 {
             color: #630400;
-            padding: 1em; 
+            padding: 1rem; 
         }
         h4,h5,h6,p {
             text-align: center;
-            font-family: Georgia;
+            font-family: "Helvetica Neue", Arial, sans-serif;
             color: #9b0700;
-            padding: .5em;
+            padding: 1rem;
         }
 
-        footer{
-            background-color: #ffda56;
-            margin: 0;
+
+        .logo 
+        img {
+            position: relative;
+            max-width: 20%;
+            max-height: 5%;
         }
 
-        .logo {
-            text-align: left;
-        }
-        .logo img {
-            height: 10%;
-            width: 10%;
-        }
 
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -86,41 +118,50 @@
             width: 100%;
             background-color: white;
         }
+        #myFooter {
+            padding: 1rem;
+        }
  
     </style>
     
 </head>
             
-<body style ='background-color: #fffdea;'>
+<body style ='background-color: white;'>
     <h1 style="text-align: left">
-        
         <div class="logo">
-        ReeDistribute 
-            
-        <img src="../static/griffin.jpg" alt="Griffin" style="align-content: right">
+<!--         <p>
+        <a href="/">ReeDistribute</a>
+         </p> --> 
+        <a href="/">
+        <img border="0" alt="ReeDistribute" src="static/reed_logo.png">
+        </a>
         </div>
 
     </h1>
-        
-    
-        
         <div class="topnav" id="myTopnav">
             <a href="/create_account">Create an account</a>
-            <!--<a href="/login">Log in</a>-->
-            <a href="/log_donation">Donate to the LSES student group</a>
+            <a href="/login">Log in</a>
+            <a href="/log_donation">Donate</a>
             <a href="/open_request">Make a request</a>
             
             <a href="https://www.reed.edu/givingtoreed/online-giving/index.php">Donate to Reedies4Reedies</a>
+            <!-- if user is admin
+            <a href="/admin">Check pending requests </a> -->
         </div>
         
     <p>
-      {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock %}
     </p>
 
 </body>
 <footer>
+<div class="myFooter">
+    //
     <a href="http://www.reed.edu/sds/">About Us</a>
+    //
     <a href="/create_account">Create an account</a>
-    
+    //
+</div>    
 </footer>
 </html>
