@@ -1,0 +1,26 @@
+{% extends "basic.html" %} 
+{% block content %}
+<title>Submit a Request</title>
+<form action="post">
+<table class="table table-hover">
+    <tr>
+        <td width="50%">
+            <td>
+            <p> 
+                card = '<div class="card"><div class="container"><h4><b> %s, </b> %s</h4><p>$ %d</p><div id="myProgress"><div id="myBar" style="width: %f">%f</div></div> 
+                <p> %s </p>
+                <a href="/log_donation/%d"> HELP OUT</a> </div></div>'
+                <script>
+                allCards = ''
+                info = request_info()
+                for request in info:
+                    percent_filled = (request[2]/request[1])*100
+                    if percent_filled >= 100: percent_filled = 100
+                    allCards += card % (request[3], request[0], request[1], percent_filled, percent_filled, request[4], request[5])
+                </script>
+                </td>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
