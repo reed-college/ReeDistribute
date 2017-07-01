@@ -38,8 +38,11 @@ MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 """
 
 # administrator list
-ADMINS = ['example@example.com']
+ADMINS = ['careyf@reed.edu']
 
 # pagination
 POSTS_PER_PAGE = 50
 MAX_SEARCH_RESULTS = 50
+
+#test data
+# RQST = [(title="test title",desc="this is a fake request", amtNeeded=100, author="me", published="today"), (title="testing again",desc="one more", amtNeeded=150, author="him", published="yesterday"), (title="this","another", amtNeeded=50, author="me", published="08-01-05")]
