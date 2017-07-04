@@ -1,4 +1,4 @@
- import os
+import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 from flask import Flask, render_template, request, jsonify, templating
@@ -9,6 +9,7 @@ from controls import (create_student, create_donor, open_request,
                         get_donor_id, request_info, update_account_token)
 import schema
 import db
+import demo_test
 from config import app, stripe_keys, app
 """
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS...
@@ -25,10 +26,18 @@ stripe.api_key = stripe_keys["secret_key"]
 def main():
     return render_template("basic.html")
 
+
 @app.route("/", methods=["GET"])
 def make_cards():
     info = request_info()
-    print(info)
+    for i in info:
+        who = i[0]
+        amount_needed = i[1]
+        amount_given = i[2]
+        desc = i[3]
+        title = i[4]
+        req_id = i[5]
+
     # name = info[0]
     # amount_needed = info[1]
     # title = info[3]
@@ -40,7 +49,7 @@ def make_cards():
         # card_data = info
     # for items in RQST:
     #     feed+=item
-    return render_template("feed.html",key=stripe_keys["publishable_key"])
+    return render_template("feed.html",key=stripe_keys["publishable_key"],who=who,amount_needed=amount_needed,amount_given=amount_given,desc=desc,title=title,req_id=req_id)
 
 
 @app.route("/log_donation/<ID>", methods=["POST", "GET"])
