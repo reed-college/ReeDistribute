@@ -1,5 +1,5 @@
-from Schema import *
-import db
+from schema import *
+import db, testit
 
 
 ######################################Creation Functions
@@ -31,11 +31,10 @@ def create_donor(username, password, email, token=""):
     s.close()
 
 
-def open_request(student_id, amount, reason, title="Donate to a Reedie in needie", anon=True):
+def open_request(student_id, amount, reason, amount_filled=0.0, title="Donate to a Reedie in needie", anon=True):
     # Create a request instance in the rd database.
     s = db.get_session()
-
-    req = Request(requested_by=student_id, amount_needed=amount, title=title, description=reason, anon=anon)
+    req = Request(requested_by=student_id, amount_needed=amount, title=title, amount_filled=amount_filled, description=reason, anon=anon)
     s.add(req)
     s.commit()
     s.close()   
@@ -140,7 +139,7 @@ def request_info():
 
     s.close()
     return requestList
-
+# print(request_info()[1][0])
 
 def authenticate(usernameAttempt, passwordAttempt):
     # Check to see if a user is in the database
@@ -160,9 +159,9 @@ def authenticate(usernameAttempt, passwordAttempt):
 
 def test_donation():
     # Tests the donate function
-    # create_student("Peachy","Georgia", "Pe@ch3s","On@my.mind")
-    # create_donor("Mr.Money-Bags", "Ka-CH1NG!","monopolywinner@funny.money")
-    # open_request(1,34,"I need money for Rent")
+    create_student("Peachy","Georgia", "Pe@ch3s","On@my.mind")
+    create_donor("Mr.Money-Bags", "Ka-CH1NG!","monopolywinner@funny.money")
+    open_request(1,34,"I need money for Rent")
     donate(3,2,15.0, "token")
 # test_donation()
 
@@ -177,12 +176,10 @@ def test_tables():
     D = create_donor("moneybagz", "richy", "MAIL")
     D = create_donor("Curtis", "Day", "MAIL")
     
-    open_request(4, 60.00, "I NEED A TOAD. TRUST ME.", "TOADZ")
-    donate(3, 4, 55.9, "kEYKey")
 
     print(get_id("rubiesandemralds"), get_id("bananabread"))
 
-# test_tables()
+test_tables()
 
 
 def test_authentication():
@@ -204,16 +201,22 @@ def test_requests():
     create_student("bananana","HANNAH","phone", "EMAIL@MAILMAIL.MAIL")
     open_request(1, 55, "WOOOOOOOOOOOOOOOOOOW", False)
     open_request(1, 22, "I need more cake, it was a lie")
-    print(request_info())
+    # print(request_info())
 # test_requests()
     
     
 def TEST():
     start_db()
-    # test_tables()
-    # open_request(4, 60.00, "I NEED A TOAD. TRUST ME.", "TOADZ")
-    donate(2, 4, 5.35, "kEYKey")
+    test_tables()
+    open_request(1, 60.00, "I NEED A TOAD. TRUST ME.", "TOADZ")
+    donate(1, 1, 5.35, "kEYKey")
     # test_donation()
-# TEST()
-    
+    s = db.get_session()
 
+    for row in s.query(Account):
+        print(row)
+    for row in s.query(Request):
+        print(row)
+
+    s.close()
+#TEST()
