@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
     <style type="text/css" media="screen">
   form {
@@ -85,11 +86,12 @@
 </style>
 </head>
 <p>
+
 <?xml version="1.0" encoding="utf-8"?>
 <body>
 <feed xmlns="http://www.w3.org/2005/Atom">
 <h2>Example Feed</h2>
-<button class="accordion"><post-title style="font-size:20px"> I need this </post-title><br><author class="who" style="font-size: 11px">John Doe </author></button>
+<button class="accordion"><post-title style="font-size:20px" class="title"> I need this </post-title><br><author class="who" style="font-size: 11px">John Doe </author></button>
   <div class="panel">
   <br>
   <updated id="when">2003-12-13T18:30:02</updated>
@@ -102,11 +104,11 @@
 
       <id id=uuid2>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
       <!-- this will be referencing the ID number, hidden right now -->
-      <span class="desc" style="float:center;">Some text.</summary>
+      <span class="desc" id="desc" style="float:center;">Some text.</summary>
       <!-- database's description text. Should we create a character limit for this? (yes) (like 1000 words right?) -->
       <form action="/charge" method="POST">
       <!-- this charges the customer -->
-      <span class="amount" style="display:block;">$<input type="value" class="amount" required></span>
+      <span class="amount_needed" id="amount_needed" style="display:block;">$<input type="value" class="amount" required></span>
       <br>
       <h4>
       <form action="/charge" method="POST">
@@ -129,13 +131,6 @@
 
 </div>
 <script>
-var amt_donate = document.getElementsByClassName("amount");
-var desc = document.getElementsByClassName("desc");
-var author = document.getElementsByClassName("who");
-// make the amount, desc, and author variables-- right now it's examples (db)
-
-</script>
-<script>
 var acc = document.getElementsByClassName("accordion");
 var i;
 for (i = 0; i < acc.length; i++) {
@@ -148,6 +143,15 @@ for (i = 0; i < acc.length; i++) {
       panel.style.maxHeight = panel.scrollHeight + "px";
     } 
   }
-}
+};
+var who = "{{ who }}";
+var amount_needed = "{{ amount_needed }}";
+var amount_given = "{{ amount_given }}";
+var desc = "{{ desc }}";
+var req_id = "{{ req_id }}"
+  // for (i=0; i<info.length; i++) {
+$(document).ready(function(){
+    $("#amount_needed").text(amount_needed);
+  });
 </script>
 {% endblock %}
