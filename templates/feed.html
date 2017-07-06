@@ -5,7 +5,10 @@
   <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
-    <style type="text/css" media="screen">
+  <style type="text/css" media="screen">
+  html,body {
+    overflow: scroll
+  }
   form {
       padding-left:25%;
       padding-right:25%;
@@ -43,7 +46,7 @@
       padding: 0 18px;
       background-color: white;
       max-height: 0;
-      overflow: hidden;
+      overflow: scroll;
       transition: max-height 0.2s ease-out;
   }
   body {
@@ -65,17 +68,19 @@
       background-color: #efefef;
       border: 3px solid #f1f1f1;
       color: black;
+      padding-left: 10%;
+      padding-right: 10%;
     }
     #who {
       font-size:11px;
       color:black;
     }
-    #uuid, #uuid2 {
-      visibility: hidden;
-    }
-    h2 {
+
+    #title {
       text-align: center;
-      float:center;
+    }
+    #donation_amount {
+      margin: auto;
     }
     h4 { 
       display:inline;
@@ -89,33 +94,33 @@
 
 <?xml version="1.0" encoding="utf-8"?>
 <body>
+{% for i in range(6) %}
 <feed xmlns="http://www.w3.org/2005/Atom">
-<h2>Example Feed</h2>
-<button class="accordion"><post-title style="font-size:20px" class="title"> I need this </post-title><br><author class="who" style="font-size: 11px">John Doe </author></button>
-  <div class="panel">
-  <br>
-  <updated id="when">2003-12-13T18:30:02</updated>
-  <br>
-  <id id="uuid">urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
-  <br>
-    <entry id="entry" type="container" style="background-color: #efefef; display:inline-block; margin:auto; text-align: center;">
-      <span name="post">One Example Request</span> <br>
+
+<b style="font-size: 10px"> {{ post.ListIt(i,5)}}</b>
+<button class="accordion">
+<post-title style="font-size:20px" class="title"> {{ post.ListIt(i,4) }} </post-title><br><author class="who" style="font-size: 11px"><b>{{ post.ListIt(i,0) }}</b></author></button>
+
+<div class="panel">
+<br>
+<entry id="entry" type="container" style="background-color: #efefef; display:inline-block; margin:auto; text-align: center;">
+      <span name="post" id="title"><b> {{ post.ListIt(i,4) }}</b></span> <br>
       <!-- post name will be referencing the database -->
 
-      <id id=uuid2>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-      <!-- this will be referencing the ID number, hidden right now -->
-      <span class="desc" id="desc" style="float:center;">Some text.</summary>
+
+
       <!-- database's description text. Should we create a character limit for this? (yes) (like 1000 words right?) -->
       <form action="/charge" method="POST">
       <!-- this charges the customer -->
-      <span class="amount_needed" id="amount_needed" style="display:block;">$<input type="value" class="amount" required></span>
-      <br>
+
+
+      <span class="donation_amount" style="display:block; text-align: center">$<input type="value" name="donation_amount" required></span>
+
       <h4>
-      <form action="/charge" method="POST">
       <script
       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
       data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
-      data-name="example rqst"
+      data-name= "{{ post.ListIt(i,4) }}"
       data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
       data-locale="auto">
       </script>
@@ -123,6 +128,7 @@
       </form>
       </h4>
       </form>
+      <!-- stripe API, data-name and data-desc should be a variable -->
     </entry>
 </feed>
 </p>
@@ -130,28 +136,26 @@
 </body>
 
 </div>
+<br>
+
+
 <script>
+
+
 var acc = document.getElementsByClassName("accordion");
 var i;
 for (i = 0; i < acc.length; i++) {
   acc[i].onclick = function() {
     this.classList.toggle("active");
     var panel = this.nextElementSibling;
-    if (panel.style.maxHeight){
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
+    // if (panel.style.maxHeight){
+    //   panel.style.maxHeight = null;
+    // } else {
+    panel.style.maxHeight = panel.scrollHeight + "px";
   }
 };
-var who = "{{ who }}";
-var amount_needed = "{{ amount_needed }}";
-var amount_given = "{{ amount_given }}";
-var desc = "{{ desc }}";
-var req_id = "{{ req_id }}"
-  // for (i=0; i<info.length; i++) {
-$(document).ready(function(){
-    $("#amount_needed").text(amount_needed);
-  });
 </script>
+
+{% endfor %}
+
 {% endblock %}
