@@ -139,6 +139,12 @@ def request_info():
 
     s.close()
     return requestList
+def request_info_who(post_n,type_n):
+    s = db.get_session()
+    requestList = request_info()
+    data = requestList[post_n][type_n]
+    s.close()
+    return data
 # print(request_info()[1][0])
 
 def authenticate(usernameAttempt, passwordAttempt):
@@ -177,7 +183,7 @@ def test_tables():
     D = create_donor("Curtis", "Day", "MAIL")
     
 
-    print(get_id("rubiesandemralds"), get_id("bananabread"))
+    # print(get_id("rubiesandemralds"), get_id("bananabread"))
 
 test_tables()
 
