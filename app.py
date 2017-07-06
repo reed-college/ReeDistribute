@@ -6,11 +6,13 @@ import stripe
 
 from controls import (create_student, create_donor, open_request,
                         authenticate, get_id, get_student_id,
-                        get_donor_id, request_info, update_account_token)
+                        get_donor_id, request_info, request_info_who, update_account_token)
 import schema
 import db
-import demo_test
+import json
+
 from config import app, stripe_keys, app
+from forms import PostForm
 """
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS...
 """
@@ -27,29 +29,11 @@ def main():
     return render_template("basic.html")
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "POST"])
 def make_cards():
-    info = request_info()
-    for i in info:
-        who = i[0]
-        amount_needed = i[1]
-        amount_given = i[2]
-        desc = i[3]
-        title = i[4]
-        req_id = i[5]
-
-    # name = info[0]
-    # amount_needed = info[1]
-    # title = info[3]
-
-    # for request in info:
-
-        # percent_filled = (request[2]/request[1])*100
-        # if percent_filled >= 100: percent_filled = 100
-        # card_data = info
-    # for items in RQST:
-    #     feed+=item
-    return render_template("feed.html",key=stripe_keys["publishable_key"],who=who,amount_needed=amount_needed,amount_given=amount_given,desc=desc,title=title,req_id=req_id)
+    info=request_info()
+    post = PostForm()
+    return render_template("feed-tester.html",post=post,key=stripe_keys["publishable_key"])
 
 
 @app.route("/log_donation/<ID>", methods=["POST", "GET"])
@@ -105,7 +89,7 @@ def index():
 
 @app.route("/charge", methods=["POST"])
 def charge():
-    howMuch=request.form["amount"]
+    howMuch=request.form["donation_amount"]
     customer = stripe.Customer.create(
         source=request.form["stripeToken"],
         email="paying.user@example.com"
