@@ -1,6 +1,5 @@
 from schema import *
-import db, testit
-
+import db
 
 ######################################Creation Functions
 def create_student(username, name, password, email, token=""):
@@ -20,7 +19,7 @@ def create_student(username, name, password, email, token=""):
 def create_donor(username, password, email, token=""):
     # Create a Donor and Account instance in the rd database
     s = db.get_session()
-
+    print(s)
     Acc =  Account(username=username, password=password, email=email, account_token=token)
     s.add(Acc)
     s.flush()
@@ -31,13 +30,21 @@ def create_donor(username, password, email, token=""):
     s.close()
 
 
-def open_request(student_id, amount, reason, amount_filled=0.0, title="Donate to a Reedie in needie", anon=True):
+def open_request(student_id, amount, reason, title = "Donate to a Reedie in Needie"):
     # Create a request instance in the rd database.
     s = db.get_session()
-    req = Request(requested_by=student_id, amount_needed=amount, title=title, amount_filled=amount_filled, description=reason, anon=anon)
+    req = Request(requested_by=student_id, amount_needed=amount, description=reason, title = title)
     s.add(req)
     s.commit()
-    s.close()   
+    s.close()
+
+
+open_request(4,75,"industrial size tub of glitter",title = "glit") 
+open_request(1,6,"i need an eyebrow transplant",title = "help my eye browns")
+open_request(2,53,"snowshoes",title = "slomp")
+open_request(6,496,"glowworm silk farm",title = "finally")
+open_request(8,11,"get me some lotto tix",title = "i need that big money")   
+open_request(5,1409,"adopt a lemur",title = "i need him") 
 
 def donate(request_id, donor_id, amount, account_token):
     # Create and log the effects of a Donation in the database
@@ -134,11 +141,12 @@ def request_info():
             else:
                 name = get_student_name(row.requested_by)
             
-            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.id]
+            rowList = [name, row.amount_needed, row.amount_filled, row.description, row.title, row.id]
             requestList += [rowList]
 
     s.close()
     return requestList
+
 def request_info_who(post_n,type_n):
     s = db.get_session()
     requestList = request_info()
@@ -185,7 +193,7 @@ def test_tables():
 
     # print(get_id("rubiesandemralds"), get_id("bananabread"))
 
-test_tables()
+#test_tables()
 
 
 def test_authentication():
@@ -208,14 +216,14 @@ def test_requests():
     open_request(1, 55, "WOOOOOOOOOOOOOOOOOOW", False)
     open_request(1, 22, "I need more cake, it was a lie")
     # print(request_info())
-# test_requests()
+#test_requests()
     
     
 def TEST():
     start_db()
     test_tables()
-    open_request(1, 60.00, "I NEED A TOAD. TRUST ME.", "TOADZ")
-    donate(1, 1, 5.35, "kEYKey")
+    open_request(1, 60.00, "I NEED A TOAD. TRUST ME.",title = "TOAD")
+    #donate(1, 1, 5.35, "kEYKey")
     # test_donation()
     s = db.get_session()
 
@@ -225,4 +233,4 @@ def TEST():
         print(row)
 
     s.close()
-#TEST()
+TEST()
