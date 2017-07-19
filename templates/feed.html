@@ -1,3 +1,7 @@
+<!-- This template inherits from the basic template and shows all of the requests in the database 
+that have been approved by the admin. It lays them out in a flow of boxes that are collapsable and 
+open to show payment info
+ -->
 {% extends "basic.html" %}
 {% block content %}
 <!DOCTYPE html>
@@ -6,12 +10,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
   <style type="text/css" media="screen">
-  html,body {
+  html,body, {
     overflow: scroll
   }
   form {
-      padding-left:25%;
-      padding-right:25%;
+      padding-left:15%;
+      padding-right:15%;
   }
   button.accordion {
     background-color: #eee;
@@ -24,24 +28,21 @@
     outline: none;
     font-size: 15px;
     transition: 0.4s;
+    overflow: scroll;
   }
-
   button.accordion.active, button.accordion:hover {
       background-color: #ddd;
   }
-
   button.accordion:after {
-      content: '\002B';
-      color: #777;
-      font-weight: bold;
-      float: right;
-      margin-left: 5px;
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
   }
-
   button.accordion.active:after {
-      content: "\2212";
+    content: "\2212";
   }
-
   div.panel {
       padding: 0 18px;
       background-color: white;
@@ -52,7 +53,7 @@
   body {
     background-color: #ffda56;
     margin: 1;
-    position: absolute;
+    position: relative;
     right: 0;
     bottom: 0;
     left: 0;
@@ -75,7 +76,6 @@
       font-size:11px;
       color:black;
     }
-
     #title {
       text-align: center;
     }
@@ -87,26 +87,32 @@
       text-align: left
       color:#9b0700;
     }
-
 </style>
 </head>
 <p>
 
 <?xml version="1.0" encoding="utf-8"?>
 <body>
-{% for i in range(6) %}
+{% for i in range(post.leng_2) %}
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-<b style="font-size: 10px"> {{ post.ListIt(i,5)}}</b>
 <button class="accordion">
-<post-title style="font-size:20px" class="title"> {{ post.ListIt(i,4) }} </post-title><br><author class="who" style="font-size: 11px"><b>{{ post.ListIt(i,0) }}</b></author></button>
+<post-title style="font-size:20px" class="title"> 
+  {{ post.ListIt(i,4) }}
+</post-title><br>
+<author class="who" style="font-size: 11px">
+  <b>{{ post.ListIt(i,0) }}</b>
+</author>
+<post-text style="font-size:14px" class="what">
+<br>
+{{ post.ListIt(i,3) }}
+</post-text><br>
+</button>
 
 <div class="panel">
 <br>
 <entry id="entry" type="container" style="background-color: #efefef; display:inline-block; margin:auto; text-align: center;">
-      <span name="post" id="title"><b> {{ post.ListIt(i,4) }}</b></span> <br>
+      <span name="moneyneed" id="title"><b> {{ post.ListIt(i,1) }}</b></span> <br>
       <!-- post name will be referencing the database -->
-
 
 
       <!-- database's description text. Should we create a character limit for this? (yes) (like 1000 words right?) -->
@@ -114,13 +120,13 @@
       <!-- this charges the customer -->
 
 
-      <span class="donation_amount" style="display:block; text-align: center">$<input type="value" name="donation_amount" required></span>
+     <span class="donation_amount" style="display:block; text-align: center">$<input type="value" name="donation_amount" required></span>
 
       <h4>
       <script
       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
       data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
-      data-name= "{{ post.ListIt(i,4) }}"
+      data-name= "{{ post.ListIt(i,2) }}"
       data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
       data-locale="auto">
       </script>
@@ -129,7 +135,7 @@
       </h4>
       </form>
       <!-- stripe API, data-name and data-desc should be a variable -->
-    </entry>
+    </entry> 
 </feed>
 </p>
 </div>
@@ -140,8 +146,6 @@
 
 
 <script>
-
-
 var acc = document.getElementsByClassName("accordion");
 var i;
 for (i = 0; i < acc.length; i++) {
@@ -154,7 +158,7 @@ for (i = 0; i < acc.length; i++) {
     panel.style.maxHeight = panel.scrollHeight + "px";
   }
 };
-</script>
+</script> 
 
 {% endfor %}
 
