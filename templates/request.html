@@ -7,16 +7,20 @@
     <title>Create Account</title>
 <style>
 form {
-    border: 1px solid #f1f1f1;
+    padding-left:25%;
+    padding-right:25%;
+    border: 3px solid #f1f1f1;
 }
-input[type=name], input[type=number], input[type=user], input[type=password] {
+input[type=title], input[type=number], input[type=user], input[type=password], input[type=description] {
     padding: 12px 20px;
     margin: 8px 0;
-    display: inline;
+    display: inline-block;
     border: 1px solid #ccc;
-    box-sizing: border-box;
+    width: 100%;
 }
-
+input[type=description] {
+    overflow: visible
+}
 textarea {
     resize: none;
     width: 100%;
@@ -46,22 +50,15 @@ label {
     text-align: left;
 }
 
-.cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #9b0700;
-}
 
 .container {
     padding: 16px;
-    word-spacing: 20%;
-    display: inline-block;
+    float: center;
+    background-color:#f1f1f1;
 }
-a.container {
-    padding:10px;
-}
+
 span.psw {
-    float: right;
+    float: center;
     padding-top: 16px;
 }
 h2 {
@@ -72,7 +69,7 @@ h2 {
 @media screen and (max-width: 300px) {
     span.psw {
        display: block;
-       float: none;
+       float: center;
     }
     .cancelbtn {
        width: 100%;
@@ -88,31 +85,26 @@ h2 {
 
 <form action="/basic" method="post">
 <p>
-  <div class="container" type="req" style="background-color:#f1f1f1">
-    <label><b>Name</b></label>
-    <input type="name" placeholder="Name (optional)" name="nme">
+  <div class="container" type="req">
+    <label><b>Title:</b></label>
+    <input type="title" placeholder="Title (optional)" name="title">
 
-    <label><b>Amount</b></label>
-    <input type="number" placeholder="Enter Amount $" name="amt" required><br>
+    <label><b>Amount:</b></label>
+    <input type="number" placeholder="Amount $" name="amt" required><br>
 
     <label><b>Username:</b></label>
     <input type="user" placeholder="Username" name="uname" required>
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="pwd" required></br>
+    <label><b>Password:</b></label>
+    <input type="password" placeholder="Password" name="pwd" required></br>
         
-  </div>
-  <div class="container" >
     <label><b>Description:</b></label>
-    <textarea></textarea>
-
-    <button type="submit">Login</button>
-  <div class="container" style="display:inline">
-    <button type="button" class="cancelbtn">Cancel</button>
+    <input type="description" placeholder="Description" name="description" required><br>
+    <input type="checkbox" checked="checked"> Anonymous<br>
+    <button type="submit">Submit Request for Approval</button>
+    </div>
+    <br>
     <span class="psw">Don't have an account? <a href="/create_account">Create one!</a></span>
-
-  </div>
   </p>
 </body>
 {% endblock %}
-</head>
