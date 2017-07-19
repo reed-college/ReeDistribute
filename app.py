@@ -7,8 +7,8 @@ import stripe
 from controls import (create_student, create_donor, open_request,
                         authenticate, get_id, get_student_id,
                         get_donor_id, request_info, request_info_who, update_account_token)
-import schema
 import db
+import schema
 import json
 
 from config import app, stripe_keys, app
@@ -20,8 +20,8 @@ from urllib.parse import urlparse, urljoin
 from werkzeug.contrib.atom import AtomFeed
 
 
-
 stripe.api_key = stripe_keys["secret_key"]
+
 
 
 @app.route("/", methods=["POST"])
@@ -33,7 +33,7 @@ def main():
 def make_cards():
     info=request_info()
     post = PostForm()
-    return render_template("feed-tester.html",post=post,key=stripe_keys["publishable_key"])
+    return render_template("feed.html",post=post,key=stripe_keys["publishable_key"])
 
 
 @app.route("/log_donation/<ID>", methods=["POST", "GET"])
@@ -54,13 +54,13 @@ def add_account():
     username=request.form["username"]
     name =request.form["name"]
     email=request.form["email"]
-    pw1 =request.form["pw1"]
-    pw2 =request.form["pw2"]
+    pw1 =request.form["psw1"]
+    pw2 =request.form["psw2"]
     
 
     if (pw1 == pw2):
         create_student(username, name, pw1, email)
-        return render_template("frontpage.html") 
+        return render_template("loginsuccess.html") 
     else: 
         return render_template("addform.html")
 
@@ -75,7 +75,7 @@ def log_in():
 def check_credentials():
     usernameAttempt = request.form["uname"]
     passwordAttempt = request.form["psw"]
-    # result = authenticate(usernameAttempt, passwordAttempt)
+    result = authenticate(usernameAttempt, passwordAttempt)
     # return render_template("basic.html")
     if result: 
         return render_template("loginsuccess.html")
@@ -115,16 +115,13 @@ def check_request():
     reason = request.form["dscrp"]
     usernameAttempt = request.form["uname"]
     passwordAttempt = request.form["psw"]
-    # result = authenticate(usernameAttempt, passwordAttempt)
-    ID = get_id(usernameAttempt)
-    open_request(ID,requiredmoney,reason)
-    return render_template("submit-request.html")
-    # if result: 
-    #     ID = get_id(usernameAttempt)
-    #     open_request(ID, amt, reason)
-    #     return render_template("loginsuccess.html")
-    # else: 
-    #     return render_template("loginFailure.html") 
+    result = authenticate(usernameAttempt, passwordAttempt)
+    if result:    
+        ID = get_id(usernameAttempt)
+        open_request(ID,requiredmoney,reason)
+        return render_template("feed.html")
+    else: 
+        return render_template("loginFailure.html") 
 
 
 @app.errorhandler(404)
