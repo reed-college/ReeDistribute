@@ -96,6 +96,7 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     amount_filled = Column(Float, default=0.0) #How much money has been raised
     anon = Column(Boolean, default=True) #Will the request be posted anonymously
     filled = Column(Boolean, default=False) #After the request is filled, it no longer needs to be donated to
+    approved = Column(Boolean, default=False) #admin approval is needed for the request to be shown
     
     def __repr__(self):
         ret = "<ID: %d, Requested: %d, Filled: %d, Title: %s>" % (

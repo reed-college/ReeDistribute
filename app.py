@@ -111,15 +111,16 @@ def make_request():
 
 @app.route("/submit-request", methods=["POST"])
 def check_request():
+    title = request.form["title"]
     requiredmoney = request.form["amount"]
-    reason = request.form["dscrp"]
-    usernameAttempt = request.form["uname"]
+    usernameAttempt = request.form["username"]
     passwordAttempt = request.form["psw"]
+    reason = request.form["description"]
     result = authenticate(usernameAttempt, passwordAttempt)
     if result:    
         ID = get_id(usernameAttempt)
-        open_request(ID,requiredmoney,reason)
-        return render_template("feed.html")
+        open_request(ID,requiredmoney,reason,title)
+        return render_template("loginsuccess.html")
     else: 
         return render_template("loginFailure.html") 
 
