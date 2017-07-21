@@ -1,5 +1,7 @@
 from schema import *
-import db, testit
+import db
+
+start_db()
 
 
 ######################################Creation Functions
@@ -15,7 +17,7 @@ def create_student(username, name, password, email, token=""):
     s.add(Stu)
     s.commit()
     s.close()
-
+    print(username, "added to the database")
 
 def create_donor(username, password, email, token=""):
     # Create a Donor and Account instance in the rd database
@@ -31,13 +33,15 @@ def create_donor(username, password, email, token=""):
     s.close()
 
 
-def open_request(student_id, amount, reason, amount_filled=0.0, title="Donate to a Reedie in needie", anon=True):
+def open_request(student_id, amount, reason, title="Donate to a Reedie in needie", anon=True, amount_filled=0.0):
     # Create a request instance in the rd database.
     s = db.get_session()
     req = Request(requested_by=student_id, amount_needed=amount, title=title, amount_filled=amount_filled, description=reason, anon=anon)
     s.add(req)
     s.commit()
-    s.close()   
+    s.close()
+    print(student_id, "request added to the database")
+       
 
 def donate(request_id, donor_id, amount, account_token):
     # Create and log the effects of a Donation in the database
@@ -120,25 +124,29 @@ def update_account_token(username, token):
     s.close()
 
 
-def request_info():
-    # Returns a list of all active requests as lists of their traits
+def request_info(show_unapproved=False):
+    # Returns a list of all active and approved requests as lists of their traits
     # requestlist = [row1List, ...] where
     # rowXList = rowX:name, rowX.amount_needed, rowX.amount_filled, rowX.description
     s = db.get_session()
     requestList = []
     
     for row in s.query(Request):
-        if row.filled == False:
+        if row.filled == False:     
             if row.anon == True:
                 name = "Anonymous"
             else:
                 name = get_student_name(row.requested_by)
             
-            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.id]
+            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.id, row.approved]
             requestList += [rowList]
-
+    if requestList==[]: requestList = [[]]
     s.close()
     return requestList
+
+    
+
+
 def request_info_who(post_n,type_n):
     s = db.get_session()
     requestList = request_info()
@@ -153,13 +161,38 @@ def authenticate(usernameAttempt, passwordAttempt):
     s = db.get_session()
     
     A = s.query(Account).filter(Account.username==usernameAttempt).first()
-    if A is None: ret = False
-    elif (A.password == passwordAttempt): ret = True
-    else: ret = False
+    if A is None:
+        ret = False
+    elif (A.password == passwordAttempt): 
+        ret = True
+    else:
+        ret = False
    
     s.close()
     return ret
+########################################################################## Untested
+# def update_password(userName, oldPass, newPass1, newPass2):
+#     s = db.get_session()
+#     A = s.query(Account).filter(Account.username==userName).first()
+#     if A is None: 
+#         Return False
+#     elif A.password == oldPass:
+#         if newPass1 == newPass2:
+#             A.password = newPass1
+#             return True
+#         return False
+#     return False
+#     s.commit()
+#     s.close()
 
+def approve_request(id):
+    s = db.get_session()
+    R = s.query(Request).filter(Request.id == id).first()
+    R.approved = True
+    s.commit()
+    s.close()
+
+    
 
 ######################################################################################## TESTS
 
@@ -170,6 +203,7 @@ def test_donation():
     open_request(1,34,"I need money for Rent")
     donate(3,2,15.0, "token")
 # test_donation()
+    
 
 
 def test_tables():
@@ -185,7 +219,7 @@ def test_tables():
 
     # print(get_id("rubiesandemralds"), get_id("bananabread"))
 
-test_tables()
+# test_tables()
 
 
 def test_authentication():
@@ -200,7 +234,9 @@ def test_authentication():
     s.close()
     print(r1, r2, r3)
 # test_authentication()
-
+def test_approval():
+    approve_request(2)
+# test_approval()
 
 def test_requests():
     # Test to see if we can return all the request info needed for posting
@@ -225,4 +261,4 @@ def TEST():
         print(row)
 
     s.close()
-#TEST()
+# TEST()
