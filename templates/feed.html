@@ -90,7 +90,7 @@ open to show payment info
 </style>
 </head>
 <p>
-
+<!-- Is this where each request's information box is created? -->
 <?xml version="1.0" encoding="utf-8"?>
 <body>
 {% for i in range(post.leng_2) %}
@@ -107,7 +107,7 @@ open to show payment info
 {{ post.ListIt(i,3) }}
 </post-text><br>
 </button>
-
+<!-- What does this section do? -->
 <div class="panel">
 <br>
 <entry id="entry" type="container" style="background-color: #efefef; display:inline-block; margin:auto; text-align: center;">
@@ -122,6 +122,7 @@ open to show payment info
 
      <span class="donation_amount" style="display:block; text-align: center">$<input type="value" name="donation_amount" required></span>
 
+<!--   Where is the button supposed to show up?      -->
       <h4>
       <script
       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -144,7 +145,7 @@ open to show payment info
 </div>
 <br>
 
-
+<!-- What does this do? -->
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i;
