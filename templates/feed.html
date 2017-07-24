@@ -1,165 +1,158 @@
-<!-- This template inherits from the basic template and shows all of the requests in the database 
-that have been approved by the admin. It lays them out in a flow of boxes that are collapsable and 
-open to show payment info
- -->
-{% extends "basic.html" %}
-{% block content %}
+{% extends "basic.html" %} {% block content %}
 <!DOCTYPE html>
 <html>
+
   <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
-  <style type="text/css" media="screen">
-  html,body, {
-    overflow: scroll
-  }
-  form {
-      padding-left:15%;
-      padding-right:15%;
-  }
-  button.accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 16px;
-    width: 50%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-    overflow: scroll;
-  }
-  button.accordion.active, button.accordion:hover {
-      background-color: #ddd;
-  }
-  button.accordion:after {
-    content: '\002B';
-    color: #777;
-    font-weight: bold;
-    float: right;
-    margin-left: 5px;
-  }
-  button.accordion.active:after {
-    content: "\2212";
-  }
-  div.panel {
-      padding: 0 18px;
-      background-color: white;
-      max-height: 0;
-      overflow: scroll;
-      transition: max-height 0.2s ease-out;
-  }
-  body {
-    background-color: #ffda56;
-    margin: 1;
-    position: relative;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: 1.5rem;
-    background-color: #efefef;
-    text-align: center;
-    color: #9b0700;
-  }
-    #when {
-      font-size:11px;
-    }
-    #entry {
-      background-color: #efefef;
-      border: 3px solid #f1f1f1;
-      color: black;
-      padding-left: 10%;
-      padding-right: 10%;
-    }
-    #who {
-      font-size:11px;
-      color:black;
-    }
-    #title {
-      text-align: center;
-    }
-    #donation_amount {
-      margin: auto;
-    }
-    h4 { 
-      display:inline;
-      text-align: left
-      color:#9b0700;
-    }
-</style>
-</head>
-<p>
+    <style type="text/css" media="screen">
+      html,
+      body {
+        overflow: scroll
+      }
+      
+      form {
+        padding-left: 25%;
+        padding-right: 25%;
+        padding-bottom: 0px;
+      }
+      
+      div.post {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding-top: 16px;
+        padding-right: 16px;
+        padding-left: 16px;
+        padding-bottom: 1px;
+        width: 50%;
+        margin: auto;
+        text-align: center;
+        outline: none;
+        font-size: 15px;
+      }
+      
+      body {
+        background-color: #ffda56;
+        margin: 1;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1.5rem;
+        background-color: #efefef;
+        text-align: center;
+        color: #9b0700;
+      }
+      h4 {
+        display: inline;
+        text-align: left color: #9b0700;
+      }
+      
+      body {
+        padding: 50px;
+      }
+     
+      #when {
+        font-size: 11px;
+      }
+      
+      #who {
+        font-size: 14px;
+        color: black;
+        text-align: center
+      }
+      
+      #title {
+        text-align: center;
+      }
 
-<?xml version="1.0" encoding="utf-8"?>
-<body>
-{% for i in range(post.leng_2) %}
-<feed xmlns="http://www.w3.org/2005/Atom">
-<button class="accordion">
-<post-title style="font-size:20px" class="title"> 
-  {{ post.ListIt(i,4) }}
-</post-title><br>
-<author class="who" style="font-size: 11px">
-  <b>{{ post.ListIt(i,0) }}</b>
-</author>
-<post-text style="font-size:14px" class="what">
-<br>
-{{ post.ListIt(i,3) }}
-</post-text><br>
-</button>
+      #desc {
+        text-align: center;
+        font-size: 11px;
+      }
+      #amount {
+        font-size:16px;
+        text-align: right
+      }
+      #idn {
+        text-align: left;
+        font-size: 10px
+      }
+      
+    </style>
+  </head>
 
-<div class="panel">
-<br>
-<entry id="entry" type="container" style="background-color: #efefef; display:inline-block; margin:auto; text-align: center;">
-      <span name="moneyneed" id="title"><b> {{ post.ListIt(i,1) }}</b></span> <br>
-      <!-- post name will be referencing the database -->
+  <p>
+
+    <body>
+      {% for i in range(post.leng_2) %}
+      <feed>
 
 
-      <!-- database's description text. Should we create a character limit for this? (yes) (like 1000 words right?) -->
-      <form action="/charge" method="POST">
-      <!-- this charges the customer -->
+        <div class="post">
 
+          <post-title style="font-size:20px" class="title"> {{ post.ListIt(i,3) }} </post-title>
+          <br><br>
+          <author class="who"> <b>{{ post.ListIt(i,0) }} requests: </b> </author> 
+          <post-amt class="amount "> ${{ post.ListIt(i,1) }} </post-amt>
 
-     <span class="donation_amount" style="display:block; text-align: center">$<input type="value" name="donation_amount" required></span>
+          <br><br>
 
-      <h4>
-      <script
-      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-      data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
-      data-name= "{{ post.ListIt(i,2) }}"
-      data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
-      data-locale="auto">
-      </script>
-      <!-- stripe API, data-name and data-desc should be a variable -->
-      </form>
-      </h4>
-      </form>
-      <!-- stripe API, data-name and data-desc should be a variable -->
-    </entry> 
-</feed>
-</p>
-</div>
-</body>
+          <entry class="entry">
+            <post-desc class="desc"> {{ post.ListIt(i,4) }}</post-desc>
+            <br>
+            <!-- post name will be referencing the database -->
 
-</div>
-<br>
+            <form action="/charge" method="post" style="padding:0px">
 
+              <noscript>You must <a href="http://www.enable-javascript.com" target="_blank">enable JavaScript</a> in your web browser in order to pay via Stripe.</noscript>
+              <br>
+              <input type="number" name="amount" id="amount" step='0.01' placeholder='0.00' onchange='setTwoNumberDecimal()' style="border-radius: 12px; background-color: white; display:inline-block;border:none; width:70px">
+              
+              <input 
+              type="submit" 
+              value="Donate to {{ post.ListIt(i,0) }}" 
+              data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
+              data-currency="usd" 
+              data-name="ReeDistribute goal: ${{ post.ListIt(i,1) }}" data-description="{{ post.ListIt(i,5) }}"
+              style="border-radius: 12px; background-color: white; display:inline-block;border:none; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"
+              />
 
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
-for (i = 0; i < acc.length; i++) {
-  acc[i].onclick = function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    // if (panel.style.maxHeight){
-    //   panel.style.maxHeight = null;
-    // } else {
-    panel.style.maxHeight = panel.scrollHeight + "px";
-  }
-};
-</script> 
+            
 
-{% endfor %}
+              <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
-{% endblock %}
+              <script>
+                $(document).ready(function() {
+                  var amount = $('amount').value * 100;
+                  $(':submit').on('click', function(event) {
+                    event.preventDefault();
+                    var $button = $(this),
+                      $form = $button.parents('form');
+                    var opts = $.extend({}, $button.data(), {
+                      token: function(result) {
+                        $form.append($('<input>').attr({
+                          type: 'hidden',
+                          name: 'stripeToken',
+                          value: result.id,
+                          amount: amount,
+                          stripeEmail: result.card.name
+                        })).submit();
+                      }
+                    });
+                    StripeCheckout.open(opts);
+                  });
+                });
+
+              </script>
+            </form>
+
+            <!-- stripe API, data-name and data-desc should be a variable -->
+          </entry>
+      </feed>
+  </p>
+  </div>
+  </body>
+
+  {% endfor %} {% endblock %}
