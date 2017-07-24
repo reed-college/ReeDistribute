@@ -17,14 +17,22 @@
 </head>
 <span style="float:center">How much would you like to donate?</span>
 <form action="/charge" method="POST">
-<span class="amount" style="display:block;">$<input type="value" name="amount" required></span>
+<span class="donation_amount" style="display:block;">$<input type="value" name="donation_amount" required></span>
 <br>
 <script style="padding:5%"
-  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+  src="https://checkout.stripe.com/checkout.js"
+  class="stripe-button"
   data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc"
   data-name="REEDistribute"
   data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
   data-locale="auto">
 </script>
 </form>
+<script>
+var amount = document.getElementsByClassName("amount");
+var stripe = document.getElementsByClassName("stripe-button");
+if (amount === null) {
+  $(stripe).hide() 
+}
+</script>
 {% endblock %}
