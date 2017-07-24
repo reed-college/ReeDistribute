@@ -89,21 +89,21 @@ def index():
 
 @app.route("/charge", methods=["POST"])
 def charge():
-    howMuch=request.form["donation_amount"]
+    amount=request.form.get("amount")
+    email=request.form.get("source.customer.name")
     customer = stripe.Customer.create(
-        source=request.form["stripeToken"],
-        email="paying.user@example.com"
+        source=request.form.get("stripeToken"),
+        email=email
     )
+
 
     charge = stripe.Charge.create(
         customer=customer.id,
-        amount=howMuch,
+        amount=amount,
         currency="usd",
         description="Donation"
     )
-
-    return render_template('charge.html', amount=howMuch)
-
+    return render_template('charge.html', amount=amount, stripeEmail=email)
 
 @app.route("/open_request")
 def make_request():
