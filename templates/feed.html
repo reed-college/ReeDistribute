@@ -85,11 +85,11 @@
   <p>
 
     <body>
-      {% for i in range(post.leng_2) %}
+      {% for i in range(post.GetLength()) %}
       <feed>
 
 
-        <div class="post">
+        <div class="post" style="outline-style: double">
 
           <post-title style="font-size:20px" class="title"> {{ post.ListIt(i,3) }} </post-title>
           <br><br>
