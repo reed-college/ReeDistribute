@@ -1,16 +1,46 @@
-<title>donation</title>
-{% extends "basic.html" %}
-{% block content %}
-    <h1> {{info}} </h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReeDistribute</title>
+    <link rel="stylesheet" href="static/basic.css">
+    
+</head>
+            
+<body style ='background-color: white;'>
+    <h1 style="text-align: left">
+        <div class="logo">
+<!--         <p>
+        <a href="/">ReeDistribute</a>
+         </p> --> 
+        <a href="/">
+        <img border="0" alt="ReeDistribute" src="static/reed_logo.png">
+        </a>
+        </div>
+
+    </h1>
+        <div class="topnav" id="myTopnav">
+            <a href="/create_account">Create an account</a>
+            <a href="/login">Log in</a>
+            <a href="/log_donation">Donate</a>
+            <a href="/open_request">Make a request</a>
+            <a href="https://www.reed.edu/givingtoreed/online-giving/index.php" target="_blank">Donate to Reedies4Reedies</a>
+            <!-- if user is admin
+            <a href="/admin">Check pending requests </a> -->
+        </div>
+        
     <p>
-    <form action="/pay" method="POST">
-
-    Amount: <input type="number" name="amt" required><br>
-    Username: <input type="text" name="uname" required><br>
-    Password: <input type="text" name="psw" required><br>
-
-       
-    <button type="submit">Login</button></a>
-
+      {% block content %}
+      {% endblock %}
     </p>
-{% endblock %}
+
+</body>
+<footer>
+<div class="myFooter">
+    //
+    <a href="http://www.reed.edu/sds/">About Us</a>
+    //
+    <a href="/create_account">Create an account</a>
+    //
+</div>    
+</footer>
+</html>
