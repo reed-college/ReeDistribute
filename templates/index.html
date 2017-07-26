@@ -15,24 +15,28 @@
 }
 </style>
 </head>
-<span style="float:center">How much would you like to donate?</span>
-<form action="/charge" method="POST">
-<span class="donation_amount" style="display:block;">$<input type="value" name="donation_amount" required></span>
-<br>
-<script style="padding:5%"
-  src="https://checkout.stripe.com/checkout.js"
-  class="stripe-button"
-  data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc"
-  data-name="REEDistribute"
-  data-image="https://www.hscripts.com/freeimages/logos/academic-institution-logos/reed-college-griffin/reed-college-griffin-256.gif"
-  data-locale="auto">
-</script>
-</form>
-<script>
-var amount = document.getElementsByClassName("amount");
-var stripe = document.getElementsByClassName("stripe-button");
-if (amount === null) {
-  $(stripe).hide() 
-}
-</script>
+  <form action="/charge" method="post" style="padding:0px">
+
+    <noscript>You must <a href="http://www.enable-javascript.com" target="_blank">enable JavaScript</a> in your web browser in order to pay via Stripe.</noscript>
+    <br>
+    <input type="number" name="amount" id="amount" step='0.01' placeholder='0.00' onchange='setTwoNumberDecimal()' style="border-radius: 12px; background-color: white; display:inline-block;border:none; width:70px">
+    
+    <input 
+    type="submit" 
+    value="Donate" 
+    data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
+    data-currency="usd" 
+    data-name="ReeDistribute" data-description="Donation"
+    style="border-radius: 12px; background-color: white; display:inline-block;border:none; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"
+    />
+
+  
+
+    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+    <script src="static/javascript/index.js">
+
+    </script>
+  </form>
 {% endblock %}
