@@ -1,0 +1,83 @@
+{% extends "basic.html" %}
+{% block content %}
+<head>
+</head>
+<body>
+<h2> Welcome {{ current-user.name?? }} </h2>
+
+{% if current-user is in students-list %}
+<div class="container" id="account-hodler">
+You have been gifted {{ total amount of money recieved function? }} <br>
+<b>Your active requests</b>
+	<div class="container" id="active-req" style="overflow-y: scroll">
+	{% for request in requests where active=TRUE and author==current-user %}
+	{{ request }} // {{ amount_filled }} of {{ amount_needed }} filled
+	<button class="button" id=delete> Delete request </button> 
+	<br>
+	</div>
+{% endif %}
+
+{% if current-user is ADMIN %}
+<b> Current Requests </b>
+{% for request in requests where active=TRUE %}
+{{ request }} // {{ amount_filled }} of {{ amount_needed }} filled
+<button class="button" id="admin-delete"> Delete request </button>
+{% endfor %}
+
+<b> Pending Requests </b>
+{% for request in requests where active=FALE/pending=TRUE(? idk) %}
+{{ request }} // <b> goal: </b> {{ amount_needed }}
+<button class="button" id="admin-deny" onclick="adminDeny"> Deny </button>
+<button class="button" id="admin-approve" onclick="adminApprove"> Approve </button>
+<button class="button" id="req-changes" onclick="adminReqChange"> Request a change from poster </button>
+<!-- request change will email poster, maybe make it so you can only edit the request before it is Live?-->
+<!-- on click, function which changes request from inactive to active  -->
+{% endfor %}
+<b> Current Memebers </b>
+
+<input type="text" id=search-members placeholder="Search Members"> </input>
+<!-- find how to do search without reloading the page -->
+
+<div class="contianer" id="members" style="overflow-y: scroll">
+{% for person in members %}
+person
+<button class="button" id="revoke" onclick="adminRevoke"> Revoke member access </button>
+<button class="button" id="see-requests" onclick="adminSeeRequests"> See member's current requests </button>
+<button class="button" id="make-admin" onclick="adminMakeAdmin"> Make admin </button>
+{% endfor %}
+</div>
+
+<b> Pending Member Accounts to Approve </b>
+<div class="contianer" id="accounts-to-approve" style="overflow-y: scroll">
+{% for person in accounts where member-status=PENDING %}
+person
+<button class="button" id="accept-account-req" onclick="adminAcctApprove"> Accept member status </button>
+<button class="button" id="deny-account-req" onclick="adminAcctDeny"> Deny member status </button>
+{% endfor %}
+</div>
+
+<b> Add Members by Email </b>
+<input type="add" id="add-member" placeholder="Add Members"> </input>
+<button class="button" type="submit" id="admin-add" onclick="adminAddMember"> Add </button>
+<!-- function that adds email to member list, if email is not associated with a current account, then give error message -->
+
+<b> Transcripts </b>
+<input type="searchTS" id="search-TS" placeholder="Search history"> </input>
+<!-- on submit show results? -->
+<a href="??"> Sort by destination </a> <br>
+<a href="??"> Sort by amount </a> <br>
+<a href="??"> Sort by date </a> <br>
+
+{% endif %}
+</div>
+//
+<a href="/submit-request"> Submit a new request </a> //
+<a href="/delete-account"> Delete Account </a> //
+<!-- delete account page doesn't exist yet -->
+<a href="/change-name"> Change Name </a> //
+<!-- neither does change name page -->
+<!-- I dont think we should have a change email function since that would take a lot of email confirmation security stuff? -->
+</body>
+
+
+{% endblock %}
