@@ -33,54 +33,41 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
     __tablename__="accounts" #Store all account objects in accounts
 
     # Columns:
-    username = Column(String, nullable = False) #used for personalization
-    password = Column(String, nullable = False) # used for authorization
-    name = Column(String) #So the site can adress you by your chosen name
-    email = Column(String, nullable = False) #Account's email for contacting
+    username = Column(String, nullable=False) #The reed id
     account_token = Column(String) #Account's Stripe coustomer key
-    admin = Column(Boolean, default = False) #If 0 then this account is not an admin
+    admin = Column(Boolean, default=False) #True for admins
+    approved = Column(Boolean, default=False) #False if request rights are revoked
+    recieved = Column(Float, default = 0.00) #How much money has this account recieved
+    num_recieved = Column(Integer, default=0) #How many individual donations has this account recieved
+    given = Column(Float, default = 0.00) #How much money has this account given
+    num_given = Column(Integer, default=0) #How many individual donations has this accouunt given
 
-
-    def __repr__(self):
-        ret = "<ID: %d, username: %s, email: %s, token: %s>" % (
-                self.id, self.username, self.email, self.account_token)
-        return ret
-
-class Student(Base, IdPrimaryKeyMixin, DateTimeMixin):
-    """
-    students is the table for LSES student users information, represented by the Student object
-    """
-    __tablename__ = "students"
-    
-    # Columns:
-    related_account = Column(Integer, ForeignKey("accounts.id")) #So we can easily locate the user information
-    open_requests = Column(Integer, default=0) #The number of open requests by the student
-    closed_requests = Column(Integer, default=0) #The number of requests which the student opened that are now closed (filled)
-    gained_money = Column(Float, default=0) #The total amount of money this Student has gained
-    approved = Column(Boolean, default = False) #There are certain actions an account is denied if unapproved
-
+    def __init__(self, username):
+        self.username = username
+        self.account_token = 'TOKEN'
+        self.admin = False
+        self.approved = False
+        self.recieved = 0.00
+        self.num_recieved = 0
 
     def __repr__(self):
-        ret = "<ID: %d, Opened Requests: %d, Closed Requests: %d, Money Gained: %d>" % (
-                self.id, self.open_requests, self.closed_requests, self.gained_money)
+        ret = {'user':self.username, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
         return ret
-
-
-class Donor(Base, IdPrimaryKeyMixin, DateTimeMixin):
-    """
-    donors is the table for people who wish to make donations, represented by Donor objects
-    """
-    __tablename__= "donors"
-
-    # Columns:
-    related_account = Column(Integer, ForeignKey("accounts.id")) #So we can easily locate the user information
-    donations_given = Column(Integer, default=0) #The number of requests this donor has gave to
-    money_given = Column(Float, default=0) #The total amount of money this donor has donated
-
-    def __repr__(self):
-        ret = "<ID: %d, donations_given: %d, money_given: %d>" % (
-                self.id, self.donations_given, self.money_given)
+    def __str__(self):
+        ret = self.username
         return ret
+    def make_admin(self):
+        s = db.get_session()
+        self.admin = True
+        s.commit()
+        s.close()
+    def revoke_requests(self):
+        s = db.get_session()
+        self.approved = False
+        s.commit()
+        s.close()
+
+
 
 class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     """
@@ -89,7 +76,7 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     __tablename__="requests"
 
     # Columns:
-    requested_by = Column(Integer, ForeignKey("students.id")) #who gave the request
+    requested_by = Column(Integer, ForeignKey("accounts.id")) #who gave the request
     amount_needed = Column(Float) #How much money do you need
     title = Column(String) #Give it a title
     description = Column(String) #Why the user needs money or requests for physical goods
@@ -98,31 +85,26 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     filled = Column(Boolean, default=False) #After the request is filled, it no longer needs to be donated to
     approved = Column(Boolean, default=False) #admin approval is needed for the request to be shown
     
+    def __init__(self, user_id, amount, title, description, anon, approved):
+        self.requested_by = user_id
+        self.amount_needed = amount
+        self.title = title 
+        self.description = description
+        self.amount_filled = 0
+        self.amount_filled = 0
+        self.approved = approved
+
     def __repr__(self):
-        ret = "<ID: %d, Requested: %d, Filled: %d, Title: %s>" % (
-                self.id, self.amount_needed, self.amount_filled, self.title)
+        need = self.amount_needed - self.amount_filled
+        ret = {'user':self.requested_by, 'need': need, 'title':self.title, 'anon': self.anon, 'filled':self.filled, 'approved':self.approved}
         return ret
+    def __str__(self):
+        ret = self.title + "\n" + self.description
+        return ret
+
+
 
     
-class Donation(Base, IdPrimaryKeyMixin, DateTimeMixin):
-    """
-    donations is the table of Donation objects
-    """
-    __tablename__="donations"
-
-    # Columns:
-    to_request = Column(Integer, ForeignKey("requests.id")) #which request is being filled
-    from_donor = Column(Integer, ForeignKey("donors.id")) #who is donating
-    amount_given = Column(Float) #how much money is being donated
-    charge_token = Column(String) #stripey?
-    anon = Column(Boolean, default = True) #Send anonymously  
-
-    def __repr__(self):
-        ret = "<Donation Key: %d, donated: %f, from account: %s" % (
-                self.id, self.amount_given, self.from_donor)
-        return ret
-
-
 #####################################################
 def start_db():
     Base.metadata.create_all(db.engine)
