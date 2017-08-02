@@ -1,121 +1,34 @@
-<style type="text/css" media="screen">
-        
-        /* sizing */
-
-        html {
-          height: 100%;
-          box-sizing: border-box;
-        }
-
-        *,
-        *:before,
-        *:after {
-          box-sizing: inherit;
-        }
-
-        body {
-            position: relative;
-            margin: 0;
-            padding-bottom: 6rem;
-            min-height: 100%;
-            font-family: "Helvetica Neue", Arial, sans-serif;
-        } 
-        footer {
-            background-color: #ffda56;
-            margin: 1;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            padding: 1.5rem;
-            background-color: #efefef;
-            text-align: center;
-            color: #9b0700;
-        }  
-
-        /* Add a black background color to the top navigation */    
-
-        .topnav {
-            background-color: #9b0700;
-            overflow: hidden;
-        }
-
-        /* Style the links inside the navigation bar */
-        .topnav a {
-            float: left;
-            display: inline;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-        a:link, a:visited {
-            text-decoration: none;
-        }
-
-        /* Change the color of links on hover */
-        .topnav a:hover {
-            background-color: #d60000;
-            color: #fcc500;
-        }
-
-        /* Add a color to the active/current link */
-        .topnav a.active {
-            background-color: #fcc500;
-            color: #d60000;
-        }
-        
-        h1,h2,h3 {
-            color: #630400;
-            padding: 1rem; 
-        }
-        h4,h5,h6,p {
-            text-align: center;
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            color: #9b0700;
-            padding: 1rem;
-        }
+<style>
+form {
+    padding-left:25%;
+    padding-right:25%;
+    font-family: averia-serif-libre, sans-serif;
+    text-align: center;
+    margin:auto;
+}
+input[type=text], input[type=password] {
+    font-family: averia-serif-libre, sans-serif;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 2px solid red;
+}
+.button {
+    font: helvetica;
+    background-color: #9b0700;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    display: inline;
+    border-radius: 8px;
+}
 
 
-        .logo 
-        img {
-            position: relative;
-            max-width: 20%;
-            max-height: 5%;
-        }
-
-
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-            width: 40%;
-            margin:auto;
-            border-radius: 5px;
-            background-color: #bffbff
-            
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        }
-
-
-
-        #myBar {
-            /*width: 10%;*/
-            height: 30px;
-            background-color: #9b0700;
-            text-align: center; /* To center it horizontally (if you want) */
-            line-height: 30px; /* To center it vertically */
-            color: #000; 
-        }
-        #myProgress {
-            width: 100%;
-            background-color: white;
-        }
-        #myFooter {
-            padding: 1rem;
-        }
- 
-    </style>
+h2 {
+  font-family: averia-serif-libre, sans-serif;
+  text-align: center;
+}
+</style>
