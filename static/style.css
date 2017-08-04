@@ -1,0 +1,60 @@
+    <style>
+    body {
+        color: gray;
+        text-align: center;
+        display: inline-block;
+    }
+    .logo 
+    img {
+        position: relative;
+        max-width: 20%;
+        max-height: 5%;
+    }
+    #myTopnav {
+        /*width: 10%;*/
+        height: 30px;
+        background-color: #9b0700;
+        text-align: center; /* To center it horizontally (if you want) */
+        line-height: 30px; /* To center it vertically */
+        font-family: averia-serif-libre, sans-serif;
+        padding:1%;
+        word-spacing: 3px;
+    }
+
+    .topnav a, .topnav a:link, .topnav a:active {
+        padding-right:40px;
+        color:#e6ebf4;
+        text-decoration: none;
+    }
+    .topnav a:hover {
+        font-size:150%;
+        text-decoration: none;
+    }
+    @font-face {
+        font-family: averia-serif-libre, sans-serif;
+    }
+    .ffooter a, .ffooter a:link, .ffooter a:active {
+        padding:40px;
+        text-align: center;
+        color: #9b0700;
+    }
+    .ffooter a:hover {
+        text-decoration: none;
+    }
+    #myFooter {
+        font-family: averia-serif-libre, sans-serif;
+        background-color: #ffda56;
+        margin: 1;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        background-color: #efefef;
+        text-align: center;
+        color: #9b0700;
+        } 
+    p {
+        display: block;
+    }
+    </style>
