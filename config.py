@@ -8,14 +8,6 @@ To Do:
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-from flask import Flask, render_template, request, jsonify, templating
-import stripe
-
-from controls import (create_student, create_donor, open_request,
-                        authenticate, get_id, get_student_id,
-                        get_donor_id, request_info, update_account_token)
-import schema
-import db
 
 
 stripe_keys = {
@@ -38,7 +30,7 @@ MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 """
 
 # administrator list
-ADMINS = ['careyf@reed.edu']
+ADMINS = ['d']
 
 # pagination
 POSTS_PER_PAGE = 50
