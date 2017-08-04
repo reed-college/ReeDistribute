@@ -5,6 +5,11 @@ class PostForm():
 	print(info)
 	leng_2 = len(info)
 	def ListIt(self,post_n,type_n):
-		return request_info_who(post_n,type_n)
+		while True:
+			try:
+				return request_info_who(post_n,type_n)
+			except IndexError:
+				break
+				#instead of "break" we should have a funciton that just posts "there are no active requests"
 	def GetLength(self):
 		return self.leng_2
