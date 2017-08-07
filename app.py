@@ -4,29 +4,26 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 from flask import Flask, render_template, request, jsonify, templating
 import stripe
 
-from controls import (create_student, create_donor, open_request,
-                        authenticate, get_id, get_student_id,
-                        get_donor_id, request_info, request_info_who, update_account_token)
+from controls import (create_account, approve_admin, approve_requesting, 
+                    open_request,donate, get_id, update_account_token, 
+                    request_info, request_info_who, approve_request)
+ 
 import db
 import schema
 import json
 
 from config import app, stripe_keys, app
 from forms import PostForm
-"""
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS...
-"""
-from urllib.parse import urlparse, urljoin
-from werkzeug.contrib.atom import AtomFeed
+
 
 
 stripe.api_key = stripe_keys["secret_key"]
 
 
-
 @app.route("/", methods=["POST"])
 def main():
-    return render_template("basic.html")
+    loggedin=True
+    return render_template("basic.html",loggedin=loggedin)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -39,9 +36,7 @@ def make_cards():
 @app.route("/log_donation/<ID>", methods=["POST", "GET"])
 @app.route("/log_donation")
 def get_donation_info(ID=None):
-    if ID: message = "For Request # %s" %(ID)
-    else: message = "ignor this page" 
-    return render_template("donation.html", info=message)
+    return render_template("donation.html")
 
     
 @app.route("/create_account")
@@ -49,20 +44,20 @@ def create_account():
     return render_template("addform.html")
 
 
-@app.route("/record_account", methods=["POST"])
-def add_account():
-    username=request.form["username"]
-    name =request.form["name"]
-    email=request.form["email"]
-    pw1 =request.form["psw1"]
-    pw2 =request.form["psw2"]
+# @app.route("/record_account", methods=["POST"])
+# def add_account():
+#     username=request.form["username"]
+#     name =request.form["name"]
+#     email=request.form["email"]
+#     pw1 =request.form["psw1"]
+#     pw2 =request.form["psw2"]
     
 
-    if (pw1 == pw2):
-        create_student(username, name, pw1, email)
-        return render_template("loginsuccess.html") 
-    else: 
-        return render_template("addform.html")
+#     if (pw1 == pw2):
+#         create_student(username, name, pw1, email)
+#         return render_template("loginsuccess.html") 
+#     else: 
+#         return render_template("addform.html")
 
 
 @app.route("/login")
@@ -89,21 +84,36 @@ def index():
 
 @app.route("/charge", methods=["POST"])
 def charge():
-    amount=request.form.get("amount")
+    bill=request.form.get("amount")
     email=request.form.get("source.customer.name")
+    description=request.form.get("description")
     customer = stripe.Customer.create(
         source=request.form.get("stripeToken"),
         email=email
     )
 
+    dollars_cents=bill.split(".")
+    #amount comes in as a string, this is to make sure we can process amounts with or without decimals without ValueError
+    if len(dollars_cents) > 2:
+        #not yet sure what to do if this happens, but this would mean there is more than one decimal point which doesn't work
+        print(dollars_cents)
+    elif len(dollars_cents) == 2:
+        #the length of the list we create from splitting will have 2 items if there is a decimal 
+        dollars=int(dollars_cents[0])*100
+        cents=int(dollars_cents[1])
+        amount=dollars+cents
+    else:
+        amount=int(dollars_cents[0])*100
 
     charge = stripe.Charge.create(
         customer=customer.id,
         amount=amount,
         currency="usd",
-        description="Donation"
+        description=description
+        #I want to make the description the name of the specific cause 
     )
-    return render_template('charge.html', amount=amount, stripeEmail=email)
+
+    return render_template('charge.html', amount=str(amount),description=description)
 
 @app.route("/open_request")
 def make_request():
