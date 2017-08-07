@@ -5,91 +5,17 @@
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
-    <style type="text/css" media="screen">
-      html,
-      body {
-        overflow: scroll
-      }
-      
-      form {
-        padding-left: 25%;
-        padding-right: 25%;
-        padding-bottom: 0px;
-      }
-      
-      div.post {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding-top: 16px;
-        padding-right: 16px;
-        padding-left: 16px;
-        padding-bottom: 1px;
-        width: 50%;
-        margin: auto;
-        text-align: center;
-        outline: none;
-        font-size: 15px;
-      }
-      
-      body {
-        background-color: #ffda56;
-        margin: 1;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding: 1.5rem;
-        background-color: #efefef;
-        text-align: center;
-        color: #9b0700;
-      }
-      h4 {
-        display: inline;
-        text-align: left color: #9b0700;
-      }
-      
-      body {
-        padding: 50px;
-      }
-     
-      #when {
-        font-size: 11px;
-      }
-      
-      #who {
-        font-size: 14px;
-        color: black;
-        text-align: center
-      }
-      
-      #title {
-        text-align: center;
-      }
-
-      #desc {
-        text-align: center;
-        font-size: 11px;
-      }
-      #amount {
-        font-size:16px;
-        text-align: right
-      }
-      #idn {
-        text-align: left;
-        font-size: 10px
-      }
-      
-    </style>
+    <link rel="stylesheet" href="static/feed.css"> 
   </head>
 
   <p>
 
     <body>
-      {% for i in range(post.GetLength()) %}
+      {% for i in range(10) %}
       <feed>
 
 
-        <div class="post" style="outline-style: double">
+        <div class="post">
 
           <post-title style="font-size:20px" class="title"> {{ post.ListIt(i,3) }} </post-title>
           <br><br>
@@ -108,13 +34,15 @@
               <noscript>You must <a href="http://www.enable-javascript.com" target="_blank">enable JavaScript</a> in your web browser in order to pay via Stripe.</noscript>
               <br>
               <input type="number" name="amount" id="amount" step='0.01' placeholder='0.00' onchange='setTwoNumberDecimal()' style="border-radius: 12px; background-color: white; display:inline-block;border:none; width:70px">
+              <input type="hidden" name="description" id="description" value=" {{ post.ListIt(i,3) }}">
               
               <input 
               type="submit" 
               value="Donate to {{ post.ListIt(i,0) }}" 
               data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
               data-currency="usd" 
-              data-name="ReeDistribute goal: ${{ post.ListIt(i,1) }}" data-description="{{ post.ListIt(i,5) }}"
+              data-name="Goal: ${{ post.ListIt(i,1) }}" 
+              data-description="{{ post.ListIt(i,3) }}"
               style="border-radius: 12px; background-color: white; display:inline-block;border:none; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"
               />
 
@@ -125,7 +53,8 @@
 
               <script>
                 $(document).ready(function() {
-                  var amount = $('amount').value * 100;
+                  var amount = $('amount').value;
+                  var description = $('description').value;
                   $(':submit').on('click', function(event) {
                     event.preventDefault();
                     var $button = $(this),
@@ -136,8 +65,7 @@
                           type: 'hidden',
                           name: 'stripeToken',
                           value: result.id,
-                          amount: amount,
-                          stripeEmail: result.card.name
+                          amount: amount
                         })).submit();
                       }
                     });
@@ -150,9 +78,9 @@
 
             <!-- stripe API, data-name and data-desc should be a variable -->
           </entry>
+        </div>
       </feed>
   </p>
-  </div>
   </body>
 
   {% endfor %} {% endblock %}
