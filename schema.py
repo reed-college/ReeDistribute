@@ -50,8 +50,11 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.recieved = 0.00
         self.num_recieved = 0
 
-    def __repr__(self):
-        ret = {'user':self.username, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
+    def as_dict(self):
+        ret = {'user':self.username,
+        'token':self.account_token,
+        'admin':self.admin,
+        'approved': self.approved}
         return ret
     def __str__(self):
         ret = self.username
@@ -87,19 +90,57 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     
     def __init__(self, user_id, amount, title, description, anon, approved):
         self.requested_by = user_id
+        self.amount = amount
         self.amount_needed = amount
         self.title = title 
         self.description = description
         self.amount_filled = 0
-        self.amount_filled = 0
+        self.num_donors = 0
         self.approved = approved
+        
 
-    def __repr__(self):
-        need = self.amount_needed - self.amount_filled
-        ret = {'user':self.requested_by, 'need': need, 'title':self.title, 'anon': self.anon, 'filled':self.filled, 'approved':self.approved}
+    def as_dict(self):
+        ret = {"requested_by":self.requested_by,
+        "amount":self.amount,
+        "needed":self.amount_needed,
+        "filled":self.amount_filled,
+        "title":self.title,
+        "description":self.description,
+        "numDonors":self.num_donors,
+        "approved":self.approved}
         return ret
     def __str__(self):
         ret = self.title + "\n" + self.description
+        return ret
+
+
+class Donation(Base, IdPrimaryKeyMixin, DateTimeMixin):
+    """
+    donations is the table of Donation objects
+    """
+    __tablename__="receipt"
+
+    # Columns:
+    to_request = Column(Integer, ForeignKey("requests.id")) #which request is being filled
+    to_user = Column(Integer, ForeignKey("accounts.id")) #who is donating
+    amount_given = Column(Float) #how much money is being donated
+    charge_token = Column(String) #stripey?
+
+    def __init__(self, for_request, for_user, amount, token=""):
+        self.to_request = for_request
+        self.to_user = for_user
+        self.amount_given = amount
+        self.token = token
+        
+
+    def as_dict(self):
+        ret = {"request":self.to_request,
+        "user":self.to_user,
+        "amount":self.amount_given
+        }
+        return ret
+    def __str__(self):
+        ret = "User %d was given %f for request %d" % (self.to_user, self.amount_given, self.to_request)
         return ret
 
 
