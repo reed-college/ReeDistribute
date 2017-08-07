@@ -84,13 +84,25 @@ def index():
 
 @app.route("/charge", methods=["POST"])
 def charge():
-    amount=request.form.get("amount")
+    bill=request.form.get("amount")
     email=request.form.get("source.customer.name")
     customer = stripe.Customer.create(
         source=request.form.get("stripeToken"),
         email=email
     )
 
+    dollars_cents=bill.split(".")
+    #amount comes in as a string, this is to make sure we can process amounts with or without decimals without ValueError
+    if len(dollars_cents) > 2:
+        #not yet sure what to do if this happens, but this would mean there is more than one decimal point which doesn't work
+        print(dollars_cents)
+    elif len(dollars_cents) == 2:
+        #the length of the list we create from splitting will have 2 items if there is a decimal 
+        dollars=int(dollars_cents[0])*100
+        cents=int(dollars_cents[1])
+        amount=dollars+cents
+    else:
+        amount=int(dollars_cents[0])*100
 
     charge = stripe.Charge.create(
         customer=customer.id,
@@ -98,7 +110,7 @@ def charge():
         currency="usd",
         description="Donation"
     )
-    return render_template('charge.html', amount=amount, stripeEmail=email)
+    return render_template('charge.html', amount=str(amount), stripeEmail=email)
 
 @app.route("/open_request")
 def make_request():
