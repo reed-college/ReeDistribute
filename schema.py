@@ -9,7 +9,6 @@ import db
 """
 This is the database for the webapp ReeDistribute
 All information collected by this program defaults to anonymous 
-
 """
 Base = declarative_base() #Make it an OOP
 
@@ -38,9 +37,6 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
     admin = Column(Boolean, default=False) #True for admins
     approved = Column(Boolean, default=False) #False if request rights are revoked
     recieved = Column(Float, default = 0.00) #How much money has this account recieved
-    num_recieved = Column(Integer, default=0) #How many individual donations has this account recieved
-    given = Column(Float, default = 0.00) #How much money has this account given
-    num_given = Column(Integer, default=0) #How many individual donations has this accouunt given
 
     def __init__(self, username):
         self.username = username
@@ -48,7 +44,6 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.admin = False
         self.approved = False
         self.recieved = 0.00
-        self.num_recieved = 0
 
     def as_dict(self):
         ret = {'user':self.username,
@@ -86,11 +81,11 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     amount_filled = Column(Float, default=0.0) #How much money has been raised
     anon = Column(Boolean, default=True) #Will the request be posted anonymously
     filled = Column(Boolean, default=False) #After the request is filled, it no longer needs to be donated to
+    num_donors = Column(Integer, default=0) #How many donors   
     approved = Column(Boolean, default=False) #admin approval is needed for the request to be shown
     
     def __init__(self, user_id, amount, title, description, anon, approved):
         self.requested_by = user_id
-        self.amount = amount
         self.amount_needed = amount
         self.title = title 
         self.description = description
@@ -148,4 +143,8 @@ class Donation(Base, IdPrimaryKeyMixin, DateTimeMixin):
     
 #####################################################
 def start_db():
-    Base.metadata.create_all(db.engine)
+    engine = create_engine('postgresql://postgres@localhost/rd')
+    Base.metadata.create_all(engine)
+###################################################
+if __name__ == "__main__":
+    start_db()

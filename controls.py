@@ -1,8 +1,6 @@
 from schema import *
 import db
 
-start_db()
-
 
 ######################################Creation Functions
 def create_account(username):
@@ -40,37 +38,46 @@ def open_request(student_id, amount, reason, title, anon):
     s.close()
     print(student_id, "request added to the database")
 
-def donate(username, request_id, amount):
+def donate(request_id, amount):
     # Create and log the effects of a Donation in the database
     s = db.get_session()
-    A = s.query(Account).filter(Account.username==usernameAttempt).first()
-    R = s.query(Request).filter(request.id==request_id).first()
-
-    A.given += amount
-    A.num_given += 1
+    R = s.query(Request).get(request_id)
+    AID = R.requested_by
+    A = s.query(Account).get(AID)
+    D = Donation(request_id, AID, amount)
+    s.add(D)
     s.flush()
+
+    A.recieved += amount
+    s.flush()
+    R.num_donors += 1
     R.amount_filled += amount
-
-    # check to see if the request has been completed
-    if R.amount_needed >= R.amount_filled:
+    s.flush()
+    # check to see if the request has been completed    
+    if R.amount_filled >= R.amount_needed:
         R.filled = True
-
 
     s.commit()
     s.close()
 
 ######################################Information Functions
 
-def get_id(usernameAttempt):
+def account_id(name):
     # Return the database Account id for an account from the username
     s = db.get_session()
-    
-    A = s.query(Account).filter(Account.username==usernameAttempt).first()
-   
+    A = s.query(Account).filter(Account.username==name).first()
     s.close()
+    
     return A.id
 
 
+def request_id(posttitle):
+    # Return the database Account id for an account from the username
+    s = db.get_session()
+    R = s.query(Request).filter(Request.title==posttitle).first()
+    s.close()
+    
+    return R.id
 
 def update_account_token(username, token):
     s = db.get_session()
@@ -120,33 +127,66 @@ def approve_request(id):
     s.commit()
     s.close()
 
+#############################################HTML and LISTS
+def account_table():
+    s = db.get_session()
+    q = s.query(Account)
+    html = "<table name='Accounts'>" 
+    headRow=" <tr> <th> ID </th> <th> Username </th> <th>approved</th> <th>admin</th> </tr>"
+    html += headRow
+    accounts = []
+    for a in q:
+        accounts += [a.id, a.username, a.approved, a.admin]
+        row=' <tr>'
+        row += ' <td> ' + str(a.id) + ' </td>'
+        row += ' <td> ' + a.username + '</td>'        
+        row += ' <td> ' + str(a.approved) + ' </td>'
+        row += ' <td> ' + str(a.admin) + ' </td>'
+        row += ' </tr> '
+        html += row
+    html += '</table>'
+    print(accounts)
+    return accounts, html  
+
+def pending_table():
+    s = db.get_session()
+    q = s.query(Request)
+    table = "<table name='Pending Requests'>" 
+    headRow="<tr> <th>ID</th> <th>Title</th> <th>amount</th> <th>description</th> </tr>"
+    table += headRow
+    accounts = []
+    for p in q:
+        if ((p.filled==False) and (p.approved==False)):
+            accounts += [p]
+            row='<tr>'
+            row += '<td>' + str(p.id) + '</td>'
+            row += '<td>' + p.title + '</td>'        
+            row += '<td>' + str(p.amount_needed) + '</td>'
+            row += '<td>' + p.description + '</td>'
+            row += '</tr>'
+            table += row
+    table += '</table>'    
+
+
+def request_table():
     
-
-######################################################################################## TESTS
-
-def test_accounts():
     s = db.get_session()
-    A = Account('HannahBanana')
-    B = Account('DarkLordVold')
-    C = Account('Krogerdile')
-    s.add(A)
-    s.add(B)
-    s.add(C)
-    s.commit()
-    s.close()
+    q = s.query(Request)
+    table = "<table name='Requests'>" 
+    headRow="<tr> <th>ID <\th> <th>Title</th> <th>amount</th> <th>description</th> </tr>"
+    table += headRow
+    requests = []
+    for r in q:
+        if ((r.filled==False) and (r.approved==True)):
+            requests += [r]
+            row='<tr>'
+            row += '<td>' + str(r.id) + '</td>'
+            row += '<td>' + r.title + '</td>'        
+            row += '<td>' + str(r.amount_needed) + '</td>'
+            row += '<td>' + r.description + '</td>'
+            row += '</tr>'
+            table += row
+    table += '</table>'
 
-def test_requests():
-    s = db.get_session()
-    R1 = Request(1, 20.87, "For Books", "I would like to but the LOTR trillogy in paperback", True, True)
-    R2 = Request(2, 6.66, 'Horcrux', 'keep me alive forever', False, True)
-    s.add(R1)
-    s.add(R2)
-    s.commit()
-    s.close()
+    return requests, table   
 
-def TEST():
-    test_accounts()
-    test_requests()
-    # approve_admin('DarkLordVold')
-
-# TEST()
