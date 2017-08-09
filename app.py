@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, jsonify, templating
 import stripe
 
 from controls import (create_account, approve_admin, approve_requesting, 
-                    open_request,donate, get_id, update_account_token, 
+                    open_request,donate, account_id, update_account_token, 
                     request_info, request_info_who, approve_request)
  
 import db
