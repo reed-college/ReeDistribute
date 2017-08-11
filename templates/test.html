@@ -6,24 +6,62 @@ table {
     border-collapse: collapse;
     width: 70%;
     margin: auto;
+    background: #e6ebf4;
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #89ed80;
     text-align: left;
     padding: 5px;
+    padding-bottom: 20px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color:#89ed80 ;
 }
 h3 {
 	text-align: center;
 }
-
+div.container {
+	margin:auto;
+	background:#89ed80;
+	width:40%;
+	padding:20px;
+	border-radius: 25px;
+}
+div.invite,input.invite {
+	display:inline;
+}
+p.message, div.code {
+	margin:auto;
+	text-align: left;
+}
+div.code {
+	text-align: center;
+	display: inline;
+}
+button {
+	border-radius: 25px;
+	background: #62f442;
+}
 </style>
 </head>
 <body>
+<div class="container">
+<div class="code"> <b>Current activation code:</b> 12345 </div> <br>
+<div class="change_code"> <br>
+Change activation code <input class="change" id="change">
+<button class=button> Change code </button> <br>
+</div> <br>
+<div class="invite">
+Invite members by email <input class="invite" id="invite">
+<button class=button> Send invite </button> <br>
+</div>
+<br> 
+<p class="message" id="message">
+Inviting new members will send an email containing the current activation code 
+<br> which will then allow them to create an account. </p>
+</div>
 <table> 
 <h3> All Active Requests </h3>
 <tr>
@@ -72,7 +110,7 @@ h3 {
 {% endfor %}
 </table>
 
-
+<br><br>
 
 
 </body>
