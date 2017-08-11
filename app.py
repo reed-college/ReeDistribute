@@ -43,6 +43,11 @@ def get_donation_info(ID=None):
 def create_account():
     return render_template("addform.html")
 
+@app.route("/account_info", methods=["GET","POST"])
+def account_info():
+    info=request_info()
+    post=PostForm()
+    return render_template("test.html", post=post)
 
 # @app.route("/record_account", methods=["POST"])
 # def add_account():
