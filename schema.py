@@ -85,8 +85,9 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     filled = Column(Boolean, default=False) #After the request is filled, it no longer needs to be donated to
     approved = Column(Boolean, default=False) #admin approval is needed for the request to be shown
     pinned = Column(Boolean, default=False)
+    money_ask = Column(Boolean, default=True)
 
-    def __init__(self, user_id, amount, title, description, anon, approved, pinned):
+    def __init__(self, user_id, amount, title, description, anon, approved, pinned, money_ask):
         self.requested_by = user_id
         self.amount_needed = amount
         self.title = title 
@@ -95,14 +96,18 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.anon = anon
         self.approved = approved
         self.pinned = pinned
+        self.money_ask = money_ask
 
     def __repr__(self):
         need = self.amount_needed - self.amount_filled
-        ret = {'user':self.requested_by, 'need': need, 'title':self.title, 'anon': self.anon, 'filled':self.filled, 'approved':self.approved, 'pinned':self.pinned}
+        ret = {'user':self.requested_by, need': need,
+                'title':self.title, 'anon': self.anon, 
+                'filled':self.filled, 'approved':self.approved, 
+                'pinned':self.pinned, 'money_ask':self.money_ask}
         return ret
     
     def __str__(self):
-        ret = self.title + "\n" + self.description
+        ret = self.title + "\n" + self.description +"\n" + str(self.amount_needed-self.amount_filled)
         return ret
 
 
