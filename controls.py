@@ -101,8 +101,8 @@ def request_info(show_unapproved=False):
             if row.anon == False:
                 name = get_student_name(row.requested_by)
             else:
-                name = "Anonymous"         
-            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved,row.requested_by]
+                name = "Anonymous"            
+            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
             requestList += [rowList]
     if requestList==[]: requestList = [[]]
     s.close()
@@ -110,7 +110,7 @@ def request_info(show_unapproved=False):
 
     
 
-    
+
 def request_info_who(post_n,type_n):
     s = db.get_session()
     requestList = request_info()
@@ -189,3 +189,4 @@ def request_table():
     table += '</table>'
 
     return requests, table   
+
