@@ -28,4 +28,3 @@ def activation_email(to,code):
     text = msg.as_string()
     server.sendmail(fro,to,text)
     server.quit()
-activation_email("meadsha@reed.edu","WOW")
