@@ -34,6 +34,7 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
 
     # Columns:
     username = Column(String, nullable=False) #The reed id
+    name = Column(String)
     account_token = Column(String) #Account's Stripe coustomer key
     admin = Column(Boolean, default=False) #True for admins
     approved = Column(Boolean, default=False) #False if request rights are revoked
@@ -42,8 +43,9 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
     given = Column(Float, default = 0.00) #How much money has this account given
     num_given = Column(Integer, default=0) #How many individual donations has this accouunt given
 
-    def __init__(self, username):
+    def __init__(self, username, name):
         self.username = username
+        self.name = name
         self.account_token = 'TOKEN'
         self.admin = False
         self.approved = False
@@ -51,7 +53,7 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.num_recieved = 0
 
     def __repr__(self):
-        ret = {'user':self.username, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
+        ret = {'user':self.username, 'name':self.name, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
         return ret
     def __str__(self):
         ret = self.username
@@ -87,7 +89,7 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     pinned = Column(Boolean, default=False)
     money_ask = Column(Boolean, default=True)
 
-    def __init__(self, user_id, amount, title, description, anon, approved, pinned, money_ask):
+    def __init__(self, user_id, amount, title, description, anon=True, approved=True, pinned=False, money_ask=True):
         self.requested_by = user_id
         self.amount_needed = amount
         self.title = title 
@@ -104,7 +106,7 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
                 'title':self.title, 'anon': self.anon, 
                 'filled':self.filled, 'approved':self.approved, 
                 'pinned':self.pinned, 'money_ask':self.money_ask}
-        return ret
+        return str(ret)
     
     def __str__(self):
         ret = self.title + "\n" + self.description +"\n" + str(self.amount_needed-self.amount_filled)

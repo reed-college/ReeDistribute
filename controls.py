@@ -3,16 +3,18 @@ import db
 
 
 ######################################Creation Functions
-def create_account(username):
+def create_account(username, name):
     # Create a Student and Account instance in the rd database.
     s = db.get_session()
 
-    Acc =  Account(username)
+    Acc =  Account(username, name)
     s.add(Acc)
     s.commit()
+    i = Acc.id
     s.close()
 
     print(username, "added to the database")
+    return i
 
 def approve_admin(usernameAttempt):
     s = db.get_session()
@@ -28,15 +30,17 @@ def approve_requesting(usernameAttempt):
     s.commit()
     s.close()
 
-def open_request(student_id, amount, reason, title, anon):
+def open_request(student_id, amount, reason, title, anon, app):
     # Create a request instance in the rd database.
     s = db.get_session()
     if title == '': title = "Donate to a Reedie in needie"
     req = Request(student_id, amount, title, reason, anon, True)
     s.add(req)
     s.commit()
+    i = req.id
     s.close()
     print(student_id, "request added to the database")
+    return i
 
 def donate(request_id, amount):
     # Create and log the effects of a Donation in the database
@@ -44,13 +48,10 @@ def donate(request_id, amount):
     R = s.query(Request).get(request_id)
     AID = R.requested_by
     A = s.query(Account).get(AID)
-    D = Donation(request_id, AID, amount)
-    s.add(D)
-    s.flush()
 
     A.recieved += amount
+    A.num_recieved += 1
     s.flush()
-    R.num_donors += 1
     R.amount_filled += amount
     s.flush()
     # check to see if the request has been completed    
@@ -96,10 +97,11 @@ def request_info(show_unapproved=False):
     s = db.get_session()
     requestList = []
     
-    for row in s.query(Request):
+    for row in s.query(Request).filter(Request.approved==True):
         if row.filled == False:     
             if row.anon == False:
-                name = get_student_name(row.requested_by)
+                acc = s.query(Account).get(row.id)
+                name = acc.name
             else:
                 name = "Anonymous"            
             rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
@@ -190,3 +192,5 @@ def request_table():
 
     return requests, table   
 
+if __name__ =="__main__":
+    start_db()
