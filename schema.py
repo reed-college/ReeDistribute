@@ -100,7 +100,7 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
 
     def __repr__(self):
         need = self.amount_needed - self.amount_filled
-        ret = {'user':self.requested_by, need': need,
+        ret = {'user':self.requested_by, 'need': self.need,
                 'title':self.title, 'anon': self.anon, 
                 'filled':self.filled, 'approved':self.approved, 
                 'pinned':self.pinned, 'money_ask':self.money_ask}
