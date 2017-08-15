@@ -33,8 +33,16 @@ def make_cards():
     return render_template("feed.html",post=post,key=stripe_keys["publishable_key"])
 
 
-@app.route("/log_donation/<ID>", methods=["POST", "GET"])
-@app.route("/log_donation")
+@app.route("/account_info", methods=["GET","POST"])
+def account_info():
+    info=request_info()
+    post=PostForm()
+    post2=PostForm()
+    post2.filled()
+    
+    return render_template("test.html", post=post, post2=post2)
+
+@app.route("/donate")
 def get_donation_info(ID=None):
     return render_template("donation.html")
 
@@ -43,11 +51,6 @@ def get_donation_info(ID=None):
 def create_account():
     return render_template("addform.html")
 
-@app.route("/account_info", methods=["GET","POST"])
-def account_info():
-    info=request_info()
-    post=PostForm()
-    return render_template("test.html", post=post)
 
 # @app.route("/record_account", methods=["POST"])
 # def add_account():
@@ -115,6 +118,8 @@ def charge():
         currency="usd",
         description="Donation"
     )
+
+    #DB FUNCTIONS
     return render_template('charge.html', amount=str(amount), stripeEmail=email)
 
 @app.route("/open_request")
