@@ -3,7 +3,7 @@
 <head>
 <script src="//use.edgefonts.net/averia-serif-libre.js"></script>
     <title>ReeDistribute</title>
-    <link rel="stylesheet" href="static/style.css">   
+    <link rel="stylesheet" href="static/style_r.css">   
 </head>
             
 <body style ='background-color: white;'>
@@ -19,8 +19,13 @@
 
     </h1>
         <div class="topnav" id="myTopnav">
+            {% if "{{ loggedin }}" == true %}
+            <a href="/"> Hello admin! </a>
+            {% else %}
             <a href="/create_account">Create an account</a>
             <a href="/login">Log in</a>
+            {% endif %}
+            <a href="/account_info"> Account info </a>
             <a href="/log_donation">Donate</a>
             <a href="/open_request">Make a request</a>
             <a href="https://www.reed.edu/givingtoreed/online-giving/index.php" target="_blank">Donate to Reedies4Reedies</a>
