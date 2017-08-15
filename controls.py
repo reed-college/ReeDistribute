@@ -96,8 +96,11 @@ def request_info(show_unapproved=False):
     # rowXList = rowX:name, rowX.amount_needed, rowX.amount_filled, rowX.description
     s = db.get_session()
     requestList = []
-    
-    for row in s.query(Request).filter(Request.approved==True):
+    if show_unapproved == False:
+        q = s.query(Request).filter(Request.approved==True)
+    else:
+        q = s.query(Request).filter(Request.approved==False)
+    for row in q:
         if row.filled == False:     
             if row.anon == False:
                 acc = s.query(Account).get(row.id)
@@ -109,9 +112,22 @@ def request_info(show_unapproved=False):
     if requestList==[]: requestList = [[]]
     s.close()
     return requestList
-
+def filled_reqs():
+    # Returns a list of all active and approved requests as lists of their traits
+    # requestlist = [row1List, ...] where
+    # rowXList = rowX:name, rowX.amount_needed, rowX.amount_filled, rowX.description
+    s = db.get_session()
+    requestList = []
     
-
+    for row in s.query(Request).filter(Request.filled==True):
+        if row.approved == True:     
+            acc = s.query(Account).get(row.id)
+            name = acc.name            
+            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
+            requestList += [rowList]
+    if requestList==[]: requestList = [[]]
+    s.close()
+    return requestList
 
 def request_info_who(post_n,type_n):
     s = db.get_session()

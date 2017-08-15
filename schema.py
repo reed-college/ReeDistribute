@@ -40,8 +40,6 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
     approved = Column(Boolean, default=False) #False if request rights are revoked
     recieved = Column(Float, default = 0.00) #How much money has this account recieved
     num_recieved = Column(Integer, default=0) #How many individual donations has this account recieved
-    given = Column(Float, default = 0.00) #How much money has this account given
-    num_given = Column(Integer, default=0) #How many individual donations has this accouunt given
 
     def __init__(self, username, name):
         self.username = username
@@ -52,7 +50,7 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.recieved = 0.00
         self.num_recieved = 0
 
-    def __repr__(self):
+    def as_dict(self):
         ret = {'user':self.username, 'name':self.name, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
         return ret
     def __str__(self):
@@ -96,17 +94,18 @@ class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.description = description
         self.amount_filled = 0
         self.anon = anon
+        self.filled = False
         self.approved = approved
         self.pinned = pinned
         self.money_ask = money_ask
 
-    def __repr__(self):
+    def as_dict(self):
         need = self.amount_needed - self.amount_filled
         ret = {'user':self.requested_by, 'need': self.need,
                 'title':self.title, 'anon': self.anon, 
                 'filled':self.filled, 'approved':self.approved, 
                 'pinned':self.pinned, 'money_ask':self.money_ask}
-        return str(ret)
+        return ret
     
     def __str__(self):
         ret = self.title + "\n" + self.description +"\n" + str(self.amount_needed-self.amount_filled)
