@@ -1,30 +1,36 @@
 {% extends "basic.html" %} {% block content %}
 <head>
 <style>
+body {
+	font-family: arial, sans-serif;
+	}
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
     width: 70%;
     margin: auto;
-    background: #e6ebf4;
+	background: #9F5379;
+	color: #4C197F;
 }
 td, th {
-    border: 1px solid #89ed80;
     text-align: left;
     padding: 5px;
     padding-bottom: 20px;
 }
 tr:nth-child(even) {
-    background-color:#89ed80 ;
+    background-color:#C8FFFF;
+}
+tr:nth-child(odd) {
+    background:#D2C6DF;
 }
 h3 {
 	text-align: center;
 }
 div.container {
 	margin:auto;
-	background:#89ed80;
+	background:#AF6F6F;
+	border: 3px, #7F3333;
+	color:#30104F;
 	width:40%;
-	padding:20px;
+	padding:5%;
 	border-radius: 25px;
 }
 div.invite,input.invite {
@@ -40,7 +46,8 @@ div.code {
 }
 button {
 	border-radius: 25px;
-	background: #62f442;
+    background:#D2C6DF;
+
 }
 </style>
 </head>
