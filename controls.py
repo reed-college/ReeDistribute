@@ -15,6 +15,12 @@ def create_account(username, name):
 
     print(username, "added to the database")
     return i
+def del_acc(aid):
+    s = db.get_session()
+    a = s.query(Account).get(aid)
+    s.delete(a)
+    s.commit()
+    s.close()
 
 def approve_admin(usernameAttempt):
     s = db.get_session()
@@ -41,6 +47,13 @@ def open_request(student_id, amount, reason, title, anon, app):
     s.close()
     print(student_id, "request added to the database")
     return i
+
+def del_req(rid):
+    s = db.get_session()
+    r = s.query(Request).get(rid)
+    s.delete(r)
+    s.commit()
+    s.close()
 
 def donate(request_id, amount):
     # Create and log the effects of a Donation in the database
@@ -123,7 +136,7 @@ def filled_reqs():
         if row.approved == True:     
             acc = s.query(Account).get(row.id)
             name = acc.name            
-            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
+            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved, row.id, row.requested_by]
             requestList += [rowList]
     if requestList==[]: requestList = [[]]
     s.close()
