@@ -1,8 +1,10 @@
     <style>
+
     body {
-        color: gray;
+        background: #E2EFEF;
         text-align: center;
         display: inline-block;
+        text-align: left;
     }
     .logo 
     img {
@@ -11,36 +13,42 @@
         max-height: 5%;
     }
     #myTopnav {
-        /*width: 10%;*/
-        height: 30px;
+        position: absolute;
+        right: 0;
+        left: 0;
         text-align: center; /* To center it horizontally (if you want) */
-        line-height: 30px; /* To center it vertically */
+        padding: 1%;
         font-family: averia-serif-libre, sans-serif;
-        padding:1%;
-        word-spacing: 3px;
-        border-radius: 25px;
-        background: #69af96;
+        
+        background: #7F1919;
     }
 
-    .topnav a, .topnav a:link, .topnav a:active {
-        padding-right:40px;
-        color:#e6ebf4;
+    .topnav a {
+        color:#A68CBF;
+        padding: 1%;
         text-decoration: none;
     }
+    
     .topnav a:hover {
-        font-size:150%;
+        font-weight:bold;
+        background-color:#5F1313;
+        color: #8F6FAF;
         text-decoration: none;
     }
     @font-face {
         font-family: averia-serif-libre, sans-serif;
     }
     .ffooter a, .ffooter a:link, .ffooter a:active {
-        padding:40px;
+        padding:3%;
         text-align: center;
         color: #8be5c5;
+        text-decoration: none;
     }
     .ffooter a:hover {
-        text-decoration: none;
+        color: #799F53;
+        background: #A9CFCF;
+        font-weight:bold;
+        padding: 2%;
     }
     #myFooter {
         font-family: averia-serif-libre, sans-serif;
@@ -53,12 +61,13 @@
         bottom: 0;
         left: 0;
         padding: 1rem;
-        background-color: #efefef;
+
         text-align: center;
-        background: #A5A5AF;
+        background: #197F7F;
         color: #69af96;
+        
         } 
     p {
         display: block;
     }
-    </style>
+    <style>
