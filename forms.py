@@ -1,4 +1,4 @@
-from controls import request_info, request_info_who, filled_reqs
+from controls import request_info, request_info_who, filled_reqs, del_req
 import json
 class PostForm():
     
@@ -6,6 +6,7 @@ class PostForm():
 		self.info = request_info()
 		self.leng = len(self.info[0]) 
 		self.leng_2 = len(self.info)
+		self.state="normal"
 
 	def ListIt(self,post_n,type_n):
 		while True:
@@ -19,14 +20,31 @@ class PostForm():
 		return self.leng_2
 
 	def reset(self):
+		# Call to store info of approved unfilled reqs
 		self.info = request_info()
 		self.leng = len(self.info[0]) 
 		self.leng_2 = len(self.info)
+		self.state='normal'
+
 	def filled(self):
+    	# Call to store info of filled requests
 		self.info = filled_reqs()
 		self.leng = len(self.info[0]) 
 		self.leng_2 = len(self.info)
+		self.state='filled'
+
 	def unapproved(self):
+    	# Call to store the unapproved reqs
 		self.info = request_info(True)
 		self.leng = len(self.info[0]) 
 		self.leng_2 = len(self.info)
+		self.state='unapproved'
+
+	def delete_req(rid):
+		del_req(rid)
+		if self.state == 'filled':
+			self.filled()
+		elif self.state == 'unapproved':
+ 			self.unapproved()
+		else:
+			self.reset()	
