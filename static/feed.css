@@ -1,74 +1,50 @@
-<style type="text/css" media="screen">
-      html,
-      body {
-        overflow: scroll
-      }
-      
-      form {
-        padding-left: 25%;
-        padding-right: 25%;
-        padding-bottom: 0px;
-      }
-      
-      div.post {
-        color: #444;
-        cursor: pointer;
-        padding-top: 16px;
-        padding-right: 16px;
-        padding-left: 16px;
-        padding-bottom: 16px;
-        width: 50%;
-        margin: auto;
-        text-align: center;
-        font-size: 15px;
-
-        border-radius: 25px;
-        background: #89ed80;
-
-      }
-      
-      body {
-        background-color: #ffda56;
-        margin: 1px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
-        padding: 50px;
-        background-color: #efefef;
-        text-align: center;
-        color: #9b0700;
-      }
-      h4 {
-        display: inline;
-        text-align: left 
-        color: #9b0700;
-      }
-     
-      #when {
-        font-size: 11px;
-      }
-      
-      #who {
-        font-size: 14px;
-        color: black;
-        text-align: center
-      }
-      
-      #title {
-        text-align: center;
-      }
-
-      #desc {
-        text-align: center;
-        font-size: 11px;
-      }
-      #amount {
-        font-size:16px;
-        text-align: right
-      }
-      #idn {
-        text-align: left;
-        font-size: 10px
-      }
-      
-    </style>
+form {
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-bottom: 0px;
+}
+.feed {
+  width: 100%;
+  height: 100%;
+  color: #E2EFEF;
+  align-content: center;
+  overflow: scroll;
+}
+.post {
+  color: #4C7F19;
+  border: 2px solid #5F1313;
+  cursor: pointer;
+  padding-top: 3em;
+  padding-right: 5em;
+  padding-left: 5em;
+  padding-bottom: 3em;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 25px;
+  background: #BCA9CF;
+}
+#when {
+  font-size: 11px;
+}
+#who {
+  font-size: 14px;
+  color: black;
+  text-align: center
+}
+#title {
+  text-align: center;
+}
+#desc {
+  text-align: center;
+  font-size: 11px;
+}
+#amount {
+  font-size: 16px;
+  text-align: right
+}
+#idn {
+  text-align: left;
+  font-size: 10px
+}
