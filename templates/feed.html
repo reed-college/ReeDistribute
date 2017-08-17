@@ -1,19 +1,18 @@
-{% extends "basic.html" %} {% block content %}
 <!DOCTYPE html>
+{% extends "basic.html" %} {% block content %}
 <html>
 
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>ReeDistribute</title>
-    <link rel="stylesheet" href="static/feed.css"> 
+    <link rel="stylesheet" href="static/hiss.css">
+    
   </head>
 
-  <p>
 
     <body>
-      {% for i in range(post.GetLength()) %}
-      <feed>
-
+        <div class="feed">
+            {% for i in range(post.GetLength()) %}
 
         <div class="post">
 
@@ -77,8 +76,8 @@
             <!-- stripe API, data-name and data-desc should be a variable -->
           </entry>
         </div>
-      </feed>
-  </p>
-  </body>
 
   {% endfor %} {% endblock %}
+</div>
+
+</body>
