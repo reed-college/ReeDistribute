@@ -22,7 +22,7 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background:#D2C6DF;
 }
-h3 {
+h1, h3 {
 	text-align: center;
 }
 div.container {
@@ -53,15 +53,16 @@ button {
 </style>
 </head>
 <body>
+<h1> Hello {{name}}</h1>
 <div class="container">
 <div class="code"> <b>Current activation code:</b> 12345 </div> <br>
 <div class="change_code"> <br>
 Change activation code <input class="change" id="change">
-<button class=button> Change code </button> <br>
+<button class=button href="/update_code"> Change code </button> <br>
 </div> <br>
 <div class="invite">
 Invite members by email <input class="invite" id="invite">
-<button class=button> Send invite </button> <br>
+<button class=button href="/send_invite"> Send invite </button> <br>
 </div>
 <br> 
 <p class="message" id="message">
