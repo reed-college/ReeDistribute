@@ -102,6 +102,12 @@ def update_account_token(username, token):
     s.commit()
     s.close()
 
+def confirm(email, code):
+    s = db.get_session()
+    q = s.query(Pending).filter(Pending.email==email)
+    for p in q:
+        if p.code == code: return True
+    return False
 
 def request_info(show_unapproved=False):
     # Returns a list of all active and approved requests as lists of their traits
@@ -157,69 +163,7 @@ def approve_request(id):
     R.approved = True
     s.commit()
     s.close()
-
-#############################################HTML and LISTS
-def account_table():
-    s = db.get_session()
-    q = s.query(Account)
-    html = "<table name='Accounts'>" 
-    headRow=" <tr> <th> ID </th> <th> Username </th> <th>approved</th> <th>admin</th> </tr>"
-    html += headRow
-    accounts = []
-    for a in q:
-        accounts += [a.id, a.username, a.approved, a.admin]
-        row=' <tr>'
-        row += ' <td> ' + str(a.id) + ' </td>'
-        row += ' <td> ' + a.username + '</td>'        
-        row += ' <td> ' + str(a.approved) + ' </td>'
-        row += ' <td> ' + str(a.admin) + ' </td>'
-        row += ' </tr> '
-        html += row
-    html += '</table>'
-    print(accounts)
-    return accounts, html  
-
-def pending_table():
-    s = db.get_session()
-    q = s.query(Request)
-    table = "<table name='Pending Requests'>" 
-    headRow="<tr> <th>ID</th> <th>Title</th> <th>amount</th> <th>description</th> </tr>"
-    table += headRow
-    accounts = []
-    for p in q:
-        if ((p.filled==False) and (p.approved==False)):
-            accounts += [p]
-            row='<tr>'
-            row += '<td>' + str(p.id) + '</td>'
-            row += '<td>' + p.title + '</td>'        
-            row += '<td>' + str(p.amount_needed) + '</td>'
-            row += '<td>' + p.description + '</td>'
-            row += '</tr>'
-            table += row
-    table += '</table>'    
-
-
-def request_table():
-    
-    s = db.get_session()
-    q = s.query(Request)
-    table = "<table name='Requests'>" 
-    headRow="<tr> <th>ID <\th> <th>Title</th> <th>amount</th> <th>description</th> </tr>"
-    table += headRow
-    requests = []
-    for r in q:
-        if ((r.filled==False) and (r.approved==True)):
-            requests += [r]
-            row='<tr>'
-            row += '<td>' + str(r.id) + '</td>'
-            row += '<td>' + r.title + '</td>'        
-            row += '<td>' + str(r.amount_needed) + '</td>'
-            row += '<td>' + r.description + '</td>'
-            row += '</tr>'
-            table += row
-    table += '</table>'
-
-    return requests, table   
+ 
 
 if __name__ =="__main__":
     start_db()

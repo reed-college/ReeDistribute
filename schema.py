@@ -68,6 +68,21 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         s.close()
 
 
+class Pending(Base, IdPrimaryKeyMixin, DateTimeMixin):
+    __tablename__="pending"
+    
+    code = Column(String, nullable = False)
+    emails = Column(String, nullable = False)
+    def __init__(self, code, email):
+        self.code=app.config["CODE"]
+        self.email=email
+    def confirm(self, email, ActivationCode):
+        if self.email == email:
+            if self.code == ActivationCode:
+                return True
+        return False
+
+
 
 class Request(Base, IdPrimaryKeyMixin, DateTimeMixin):
     """

@@ -7,22 +7,24 @@ import stripe
 
 from controls import (create_account, approve_admin, approve_requesting, 
                     open_request,donate, account_id, update_account_token, 
-                    request_info, request_info_who, approve_request)
+                    request_info, request_info_who, approve_request, confirm)
  
 import db
 import schema
 import json
 
-from config import app, stripe_keys, app
+from config import app, stripe_keys
 from forms import PostForm
 
 
 app = Flask(__name__)
 env = Environments(app)
-env.from_object('config')
+app.config.from_object('config.Development')
 stripe.api_key = stripe_keys["secret_key"]
 
-
+def current_user():
+    u = app.config["USER"]
+    return u
 
 @app.route("/", methods=["POST"])
 def main():
@@ -39,11 +41,12 @@ def make_cards():
 @app.route("/account_info", methods=["GET","POST"])
 def account_info():
     info=request_info()
+    name=current_user()
     post=PostForm()
     post2=PostForm()
     post2.filled()
     
-    return render_template("test.html", post=post, post2=post2)
+    return render_template("test.html", name=name, post=post, post2=post2)
 
 @app.route("/donate")
 def get_donation_info(ID=None):
@@ -55,20 +58,22 @@ def create_account():
     return render_template("addform.html")
 
 
-# @app.route("/record_account", methods=["POST"])
-# def add_account():
-#     username=request.form["username"]
-#     name =request.form["name"]
-#     email=request.form["email"]
-#     pw1 =request.form["psw1"]
-#     pw2 =request.form["psw2"]
-    
+@app.route("/record_account", methods=["POST"])
+def add_account():
+    username = current_user()
 
-#     if (pw1 == pw2):
-#         create_student(username, name, pw1, email)
-#         return render_template("loginsuccess.html") 
-#     else: 
-#         return render_template("addform.html")
+    activation_code=request.form["code"]
+    name =request.form["name"]
+    email=request.form["email"]
+    res = confirm(email,activation_code)
+
+
+    if res:
+        create_student(username, name)
+        return render_template("loginsuccess.html")
+    else:
+        return render_template("loginFailure") 
+
 
 
 @app.route("/login")
@@ -80,10 +85,10 @@ def log_in():
 @app.route("/are-you-real", methods=["POST"])
 def check_credentials():
     usernameAttempt = request.form["uname"]
-    passwordAttempt = request.form["psw"]
-    result = authenticate(usernameAttempt, passwordAttempt)
+    u = current_user()
+
     # return render_template("basic.html")
-    if result: 
+    if usernameAttempt == u: 
         return render_template("loginsuccess.html")
     else: 
         return render_template("loginFailure.html")
