@@ -1,7 +1,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-from flask import Flask, render_template, request, jsonify, templating
+from flask import Flask, render_template, request, jsonify, templating, redirect, url_for
 from flask_environments import Environments
 import stripe
 
@@ -23,7 +23,10 @@ app.config.from_object('config.Development')
 stripe.api_key = stripe_keys["secret_key"]
 
 def current_user():
-    u = app.config["USER"]
+    m = app.config["MODE"]
+    if m == "DEV": u = app.config["USER"]
+    elif m == "PROD": u = request.env["REMOTE_USER"]
+    
     return u
 
 @app.route("/", methods=["POST"])
@@ -84,14 +87,13 @@ def log_in():
 
 @app.route("/are-you-real", methods=["POST"])
 def check_credentials():
-    usernameAttempt = request.form["uname"]
-    u = current_user()
-
+    u = request.form["uname"]
     # return render_template("basic.html")
-    if usernameAttempt == u: 
-        return render_template("loginsuccess.html")
+
+    if (account_id(u) != None): 
+        return redirect(url_for("make_cards"))
     else: 
-        return render_template("loginFailure.html")
+        return render_template("login.html")
 
 
 @app.route("/pay", methods=["POST"])
