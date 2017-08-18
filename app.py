@@ -2,6 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 from flask import Flask, render_template, request, jsonify, templating
+from flask_environments import Environments
 import stripe
 
 from controls import (create_account, approve_admin, approve_requesting, 
@@ -16,7 +17,9 @@ from config import app, stripe_keys, app
 from forms import PostForm
 
 
-
+app = Flask(__name__)
+env = Environments(app)
+env.from_object('config')
 stripe.api_key = stripe_keys["secret_key"]
 
 
