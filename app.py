@@ -95,7 +95,6 @@ def check_credentials():
     else: 
         return render_template("login.html")
 
-
 @app.route("/pay", methods=["POST"])
 def index():
     return render_template("index.html",key=stripe_keys["publishable_key"])
@@ -139,14 +138,13 @@ def make_request():
 @app.route("/submit-request", methods=["POST"])
 def check_request():
     title = request.form["title"]
-    requiredmoney = request.form["amount"]
-    usernameAttempt = request.form["username"]
-    passwordAttempt = request.form["psw"]
+    requiredmoney = request.form["amt"]
+    usernameAttempt = request.form["uname"]
     reason = request.form["description"]
-    result = authenticate(usernameAttempt, passwordAttempt)
+    
+    result = account_id(usernameAttempt)
     if result:    
-        ID = get_id(usernameAttempt)
-        open_request(ID,requiredmoney,reason,title)
+        open_request(result,requiredmoney,reason,title)
         return render_template("loginsuccess.html")
     else: 
         return render_template("loginFailure.html") 
