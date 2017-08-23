@@ -7,7 +7,7 @@ def activation_email(to,code):
     fro = "reedistributesds@gmail.com"
     msg=MIMEMultipart()
     msg['From'] = fro
-    msg['To'] = to
+    msg['To'] = to + "@reed.edu"
     msg['Subject'] = "ReeDistribute Activation Code"
     url = "reed.edu/reedistribute"
 
@@ -28,3 +28,8 @@ def activation_email(to,code):
     text = msg.as_string()
     server.sendmail(fro,to,text)
     server.quit()
+
+def activation_emails(emailst, code):
+    for email in emailst:
+        activation_email(email)
+    
