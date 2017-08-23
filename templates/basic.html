@@ -3,29 +3,30 @@
 <head>
 <script src="//use.edgefonts.net/averia-serif-libre.js"></script>
     <title>ReeDistribute</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/B.css">
     
 </head>
             
 <body>
-    <header>  
+    <header> 
         <div class="logo">
 
         <a href="/">
         <img border="0" alt="ReeDistribute" src="static/reed_logo.png">
         </a>
         </div>
-
+    
         <div class="topnav" id="myTopnav">
-            {% if "{{ loggedin }}" == true %}
-            <a href="/"> Hello admin! </a>
-            {% else %}
-            <a href="/create_account">Create an account</a>
-            <a href="/login">Log in</a>
-            {% endif %}
+            <a href="/"> Requests </a>            
+            {% if loggedin != False %}
             <a href="/account_info"> Account info </a>
-            <a href="/donate">Donate</a>
             <a href="/open_request">Make a request</a>
+            {% endif %}
+            {% if loggedin == False %}
+            <a href="/login">Log in</a>
+            <a href="/create_account">Create an account</a>
+            {% endif %}
+            <a href="/donate">Donate</a>
             <!-- if user is admin
             <a href="/admin">Check pending requests </a> -->
         </div>
@@ -35,8 +36,9 @@
         <div class="block">
       {% block content %}
       {% endblock %}
+      <br>
         </div>
-
+<br>
 <footer>
 <div class="ffooter" id="myFooter">
     
