@@ -22,18 +22,22 @@ app = Flask(__name__)
 class Config(object):
     DEBUG = False
     TESTING = False
+    
 
 class Development(Config):
     DEBUG = True
     DATABASE = 'rd'
+    USER = os.environ["USERNAME"]
+    CODE = "REEDSDS"
+    MODE = "DEV"
 
 class Production(Config):
     DATABASE = 'production_db'
+    MODE="PROD"
 
 # Email account and server info
 
 # administrator list
-ADMINS = ['d']
 
 # pagination
 POSTS_PER_PAGE = 50

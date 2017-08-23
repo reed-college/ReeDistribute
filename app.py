@@ -5,16 +5,14 @@ from flask import Flask, render_template, request, jsonify, templating, redirect
 from flask_environments import Environments
 import stripe
 
-from controls import (create_account, approve_admin, approve_requesting, 
-                    open_request,donate, account_id, update_account_token, 
-                    request_info, request_info_who, approve_request, confirm)
+from controls import *
  
 import db
 import schema
 import json
 
 from config import app, stripe_keys
-from forms import PostForm
+from forms import PostForm, AccountForm
 
 
 app = Flask(__name__)
@@ -31,7 +29,8 @@ def current_user():
 
 @app.route("/", methods=["POST"])
 def main():
-    return render_template("basic.html")
+    return render_template("basic.html", loggedin=True)
+
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -44,12 +43,13 @@ def make_cards():
 @app.route("/account_info", methods=["GET","POST"])
 def account_info():
     info=request_info()
-    name=current_user()
+    username=current_user()
+    account = AccountForm(username)
+
     post=PostForm()
     post2=PostForm()
     post2.filled()
-    
-    return render_template("test.html", name=name, post=post, post2=post2)
+    return render_template("test.html", myForm=account, post=post, post2=post2)
 
 @app.route("/donate")
 def get_donation_info(ID=None):

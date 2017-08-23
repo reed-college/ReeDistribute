@@ -73,8 +73,8 @@ class Pending(Base, IdPrimaryKeyMixin, DateTimeMixin):
     
     code = Column(String, nullable = False)
     emails = Column(String, nullable = False)
-    def __init__(self, code, email):
-        self.code=app.config["CODE"]
+    def __init__(self, email, code):
+        self.code=code
         self.email=email
     def confirm(self, email, ActivationCode):
         if self.email == email:

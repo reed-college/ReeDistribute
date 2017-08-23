@@ -15,6 +15,19 @@ def create_account(username, name):
 
     print(username, "added to the database")
     return i
+
+def create_pending(email, code):
+    # Create a Student and Account instance in the rd database.
+    s = db.get_session()
+
+    P =  Pending(email, code)
+    s.add(P)
+    s.commit()
+    i = P.id
+    s.close()
+
+    print(email, "account pending")
+    return i
 def del_acc(aid):
     s = db.get_session()
     a = s.query(Account).get(aid)
@@ -36,11 +49,11 @@ def approve_requesting(usernameAttempt):
     s.commit()
     s.close()
 
-def open_request(student_id, amount, reason, title, anon, app):
+def open_request(student_id, amount, reason, title, anon=True, app=True):
     # Create a request instance in the rd database.
     s = db.get_session()
     if title == '': title = "Donate to a Reedie in needie"
-    req = Request(student_id, amount, title, reason, anon, True)
+    req = Request(student_id, amount, title, reason, anon, app)
     s.add(req)
     s.commit()
     i = req.id
@@ -76,14 +89,20 @@ def donate(request_id, amount):
 
 ######################################Information Functions
 
-def account_id(name):
+def account_id(uname):
     # Return the database Account id for an account from the username
     s = db.get_session()
-    A = s.query(Account).filter(Account.username==name).first()
+    A = s.query(Account).filter(Account.username==uname).first()
     s.close()
     
     return A.id
-
+def account_name(uname):
+    # Return the database Account id for an account from the username
+    s = db.get_session()
+    A = s.query(Account).filter(Account.username==uname).first()
+    s.close()
+    
+    return A.name
 
 def request_id(posttitle):
     # Return the database Account id for an account from the username
@@ -108,6 +127,14 @@ def confirm(email, code):
     for p in q:
         if p.code == code: return True
     return False
+
+
+def is_admin(username):
+    s = db.get_session()
+    q = s.query(Account).filter(Account.username==username).first()
+    s.close()
+    return q.admin
+
 
 def request_info(show_unapproved=False):
     # Returns a list of all active and approved requests as lists of their traits
@@ -148,6 +175,28 @@ def filled_reqs():
     s.close()
     return requestList
 
+def my_reqs(username):
+    # Returns a list of all active and approved requests as lists of their traits
+    # requestlist = [row1List, ...] where
+    # rowXList = rowX:name, rowX.amount_needed, rowX.amount_filled, rowX.description
+    s = db.get_session()
+    Acc = s.query(Account).filter(Account.username==username).first()
+    myID = Acc.id
+    requestList = []
+    filledList = []
+    
+    for row in s.query(Request).filter(Request.requested_by==myID):
+        if row.filled ==True:
+            rowList = [row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
+            filledList += [rowList]            
+        elif row.approved == True:     
+            rowList = [row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
+            requestList += [rowList]
+        
+    if requestList==[]: requestList = [[]]
+    if filledList==[]: filledList = [[]]
+    s.close()
+    return requestList, filledList
 def request_info_who(post_n,type_n):
     s = db.get_session()
     requestList = request_info()
@@ -155,7 +204,12 @@ def request_info_who(post_n,type_n):
     s.close()
     return data
 # print(request_info()[1][0])
-
+def my_info(username):
+    s = db.get_session()
+    q = s.query(Account).filter(Account.username==username).first()
+    data = q.as_dict()
+    s.close()
+    return data
 
 def approve_request(id):
     s = db.get_session()
