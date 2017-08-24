@@ -13,7 +13,7 @@ stripe_keys = {
   "secret_key": os.environ["SECRET_KEY"],
   "publishable_key": os.environ["PUBLISHABLE_KEY"]
 }
-activation_code = os.environ["CODE"]
+
 api_key = stripe_keys["secret_key"]
 
 app = Flask(__name__)
@@ -21,18 +21,19 @@ app = Flask(__name__)
 class Config(object):
     DEBUG = False
     TESTING = False
-    CODE = activation_code
-    
+    CODE = "REEDSDS"    
 
 class Development(Config):
     DEBUG = True
     DATABASE = 'rd'
     USER = os.environ["USERNAME"]
     MODE = "DEV"
+    
 
 class Production(Config):
     DATABASE = 'production_db'
     MODE="PROD"
+    CODE = os.environ["CODE"]
 
 # Email account and server info
 
