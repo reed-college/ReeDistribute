@@ -78,19 +78,19 @@ Inviting new members will send an email containing the current activation code
 <h3> All Active Requests </h3>
 <tr>
 <th> Post ID </th>
-<th> Poster's ID </th>
+<th> Poster </th>
 <th> Title </th>
 <th> Goal </th>
 <th> Amount Filled </th>
 <th> Actions </th>
 </tr>
-{% for i in range(post.leng_2) %}
+{% for i in range(post.leng) %}
 <tr>
-<th> {{ i }} </th>
-<th> {{ post.ListIt(i,6) }} </th>
-<th> {{ post.ListIt(i,3) }} </th>
-<th> ${{ post.ListIt(i,1) }}  </th>
-<th> ${{ post.ListIt(i,2) }} </th>
+<th> {{ post.current[i][6] }} </th>
+<th> {{ post.current[i][0] }} </th>
+<th> {{ post.current[i][3] }} </th>
+<th> ${{ post.current[i][1] }}  </th>
+<th> ${{ post.current[i][2] }}  </th>
 <th> <a href="/"> ✖ </a> </th>
 </tr>
 {% endfor %}
@@ -100,7 +100,7 @@ Inviting new members will send an email containing the current activation code
 <h3> Filled Requests to be paid out </h3>
 <tr>
 <th> Post ID </th>
-<th> Poster's ID </th>
+<th> Poster </th>
 <th> Title </th>
 <th> Goal </th>
 <th> Amount Filled </th>
@@ -108,13 +108,14 @@ Inviting new members will send an email containing the current activation code
 <th> Delete </th>
 <th> Submit </th>
 </tr>
-{% for i in range(post2.leng_2) %}
+
+{% for i in range(post.leng_2) %}
 <tr>
-<th> {{ i }} </th>
-<th> {{ post2.ListIt(i,6) }} </th>
-<th> {{ post2.ListIt(i,3) }} </th>
-<th> ${{ post2.ListIt(i,1) }}  </th>
-<th> ${{ post2.ListIt(i,2) }} </th>
+	<th> {{ post.filled[i][6] }} </th>
+	<th> {{ post.filled[i][0] }} </th>
+	<th> {{ post.filled[i][3] }} </th>
+	<th> ${{ post.filled[i][1] }}  </th>
+	<th> ${{ post.filled[i][2] }}  </th>
 <th> <input type="number" name="amount_given" placeholder="0.00"> </th>
 <th> <input type="checkbox" name="submit-delete"></th>
 <th> <a href="/" style="text-align: center"> ✓ </a> </th>
@@ -136,9 +137,9 @@ Inviting new members will send an email containing the current activation code
 	{% for i in range(myForm.currentLen) %}
 	<tr>
 	<th> {{ myForm.currentRequests[i][2] }} </th>
-	<th> {{ myForm.currentRequests[i][0] }} </th>
+	<th> ${{ myForm.currentRequests[i][0] }} </th>
 	<th> ${{ myForm.currentRequests[i][1] }}  </th>
-	<th> ${{ myForm.currentRequests[i][3] }} </th>
+	<th> {{ myForm.currentRequests[i][3] }} </th>
 	<th> <a href="/"> ✖ </a> </th>
 	</tr>
 	{% endfor %}
@@ -156,9 +157,9 @@ Inviting new members will send an email containing the current activation code
 		{% for i in range(myForm.filledLen) %}
 		<tr>
 		<th> {{ myForm.filledRequests[i][2] }} </th>
-		<th> {{ myForm.filledRequests[i][0] }} </th>
+		<th> ${{ myForm.filledRequests[i][0] }} </th>
 		<th> ${{ myForm.filledRequests[i][1] }}  </th>
-		<th> ${{ myForm.filledRequests[i][3] }} </th>
+		<th> {{ myForm.filledRequests[i][3] }} </th>
 		<th> <a href="/"> ✖ </a> </th>
 		</tr>
 		{% endfor %}
