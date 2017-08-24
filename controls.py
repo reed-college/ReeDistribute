@@ -103,6 +103,12 @@ def account_name(uname):
     s.close()
     
     return A.name
+def change_name(acc_id, new_name):
+    s = db.get_session()
+    A = s.query(Account).get(acc_id)
+    A.name=new_name
+    s.commit()
+    s.close()
 
 def request_id(posttitle):
     # Return the database Account id for an account from the username
@@ -172,6 +178,7 @@ def filled_reqs():
             rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved, row.id, row.requested_by]
             requestList += [rowList]
     if requestList==[]: requestList = [[]]
+    
     s.close()
     return requestList
 

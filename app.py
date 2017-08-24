@@ -12,7 +12,7 @@ import schema
 import json
 
 from config import app, stripe_keys
-from forms import PostForm, AccountForm
+from forms import *
 
 
 app = Flask(__name__)
@@ -29,6 +29,8 @@ def current_user():
 
 @app.route("/", methods=["POST"])
 def main():
+    u = current_user()
+    
     return render_template("basic.html", loggedin=True)
 
 
@@ -46,10 +48,8 @@ def account_info():
     username=current_user()
     account = AccountForm(username)
 
-    post=PostForm()
-    post2=PostForm()
-    post2.filled()
-    return render_template("test.html", myForm=account, post=post, post2=post2)
+    post=AdminForm()
+    return render_template("test.html", myForm=account, post=post)
 
 @app.route("/donate")
 def get_donation_info(ID=None):

@@ -1,45 +1,19 @@
 from controls import *
 from send_email import activation_email
 import json
-class PostForm():
+class AdminForm():
 	
 	def __init__(self):
-		self.info = request_info()
-		self.leng = len(self.info[0]) 
-		self.leng_2 = len(self.info)
+		self.current = request_info()
+		self.filled = filled_reqs()
+
+		self.leng = len(self.current) 
+		self.leng_2 = len(self.filled)
 		self.state="normal"
-
-	def ListIt(self,post_n,type_n):
-		while True:
-			try:
-				return self.info[post_n][type_n]
-			except IndexError:
-				#instead of "break" we should have a funciton that just posts "there are no active requests"
-				break
-
-	def GetLength(self):
-		return self.leng_2
-
-	def reset(self):
-		# Call to store info of approved unfilled reqs
-		self.info = request_info()
-		self.leng = len(self.info[0]) 
-		self.leng_2 = len(self.info)
-		self.state='normal'
-
-	def filled(self):
-		# Call to store info of filled requests
-		self.info = filled_reqs()
-		self.leng = len(self.info[0]) 
-		self.leng_2 = len(self.info)
-		self.state='filled'
-
-	def unapproved(self):
-		# Call to store the unapproved reqs
-		self.info = request_info(True)
-		self.leng = len(self.info[0]) 
-		self.leng_2 = len(self.info)
-		self.state='unapproved'
+		if self.current == [[]]:
+			self.leng=0
+		if self.filled == [[]]:
+			self.leng_2=0
 
 	def delete_req(self, rid):
 		del_req(rid)
@@ -58,6 +32,7 @@ class PostForm():
 class AccountForm():
 	def __init__(self, username):
 		data = my_info(username)
+		self.id = data["id"]
 		self.username = username
 		self.email = username + "@reed.edu"
 		self.name = data["name"]
@@ -76,3 +51,8 @@ class AccountForm():
 		else:			
 			self.filledRequests = filled
 			self.filledLen= len(filled)
+	def delete_req(self, rid):
+		del_req(rid)
+
+	def changeName(self, newname):
+		change_name(self.id, newname)	
