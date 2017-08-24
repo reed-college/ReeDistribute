@@ -1,3 +1,5 @@
+import os
+
 from schema import *
 import db
 
@@ -86,7 +88,9 @@ def donate(request_id, amount):
 
     s.commit()
     s.close()
-
+def change_code(new_code):
+    os.environ["CODE"] = new_code
+    
 ######################################Information Functions
 
 def account_id(uname):
