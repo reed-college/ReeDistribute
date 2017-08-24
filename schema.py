@@ -51,7 +51,7 @@ class Account(Base, IdPrimaryKeyMixin, DateTimeMixin):
         self.num_recieved = 0
 
     def as_dict(self):
-        ret = {'user':self.username, 'name':self.name, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved}
+        ret = {'user':self.username, 'name':self.name, 'token':self.account_token, 'admin':self.admin, 'approved': self.approved, 'id': self.id}
         return ret
     def __str__(self):
         ret = self.username
