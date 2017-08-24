@@ -159,7 +159,7 @@ def request_info(show_unapproved=False):
                 name = acc.name
             else:
                 name = "Anonymous"            
-            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved]
+            rowList = [name, row.amount_needed, row.amount_filled, row.title, row.description, row.approved, row.id]
             requestList += [rowList]
     if requestList==[]: requestList = [[]]
     s.close()
