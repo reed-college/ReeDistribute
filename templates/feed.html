@@ -12,19 +12,19 @@
 
     <body>
         <div class="feed">
-            {% for i in range(post.GetLength()) %}
+            {% for i in range(post.leng) %}
 
         <div class="post">
 
-          <post-title style="font-size:20px" class="title"> {{ post.ListIt(i,3) }} </post-title>
+          <post-title style="font-size:20px" class="title"> {{ post.current[i][3] }} </post-title>
           <br><br>
-          <author class="who"> <b>{{ post.ListIt(i,0) }} requests: </b> </author> 
-          <post-amt class="amount "> ${{ post.ListIt(i,1) }} </post-amt>
+          <author class="who"> <b>{{ post.current[i][0] }} requests: </b> </author> 
+          <post-amt class="amount "> ${{ post.current[i][1] }} </post-amt>
 
           <br><br>
 
           <entry class="entry">
-            <post-desc class="desc"> {{ post.ListIt(i,4) }}</post-desc>
+            <post-desc class="desc"> {{ post.current[i][4] }}</post-desc>
             <br>
             <!-- post name will be referencing the database -->
 
@@ -36,10 +36,10 @@
               
               <input 
               type="submit" 
-              value="Donate to {{ post.ListIt(i,0) }}" 
+              value="Donate to {{ post.current[i][0] }}" 
               data-key="pk_test_KovI8IiKzzuFbk33ewAjbYzc" 
               data-currency="usd" 
-              data-name="ReeDistribute goal: ${{ post.ListIt(i,1) }}" data-description="{{ post.ListIt(i,3) }}"
+              data-name="ReeDistribute goal: ${{ post.current[i][1] }}" data-description="{{ post.current[i][3] }}"
               style="border-radius: 12px; background-color: white; display:inline-block;border:none; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"
               />
 
