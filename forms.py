@@ -1,6 +1,19 @@
 from controls import *
 from send_email import activation_email
 import json
+
+class PostForm():
+	def __init__(self):
+		self.current = request_info()
+		self.filled = filled_reqs()
+
+		self.leng = len(self.current) 
+		self.leng_2 = len(self.filled)
+		self.state="normal"
+		if self.current == [[]]:
+			self.leng=0
+		if self.filled == [[]]:
+			self.leng_2=0
 class AdminForm():
 	
 	def __init__(self):
